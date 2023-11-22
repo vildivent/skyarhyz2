@@ -6,7 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        h: ["var(--font-alegrea)", ...fontFamily.serif],
+        p: ["var(--font-mulish)", ...fontFamily.sans],
       },
     },
   },
