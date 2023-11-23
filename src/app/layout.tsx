@@ -1,7 +1,7 @@
-import "~/styles/globals.css";
-
 import { cookies } from "next/headers";
-
+import Image from "next/image";
+import type { ReactNode } from "react";
+import "~/styles/globals.css";
 import { TRPCReactProvider } from "~/trpc/react";
 import { alegrea, mulish } from "./fonts";
 
@@ -18,11 +18,29 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body className={`font-p ${mulish.variable} ${alegrea.variable}`}>
+      <body
+        className={`bg-darkgray font-p text-smoke ${mulish.variable} ${alegrea.variable}`}
+      >
         <TRPCReactProvider cookies={cookies().toString()}>
-          {children}
+          <LayoutBg>{children}</LayoutBg>
         </TRPCReactProvider>
       </body>
     </html>
   );
 }
+
+const LayoutBg = ({ children }: { children: ReactNode }) => {
+  return (
+    <>
+      <div className="fixed z-0 h-full w-full">
+        <Image className="object-cover" src="/bg.jpg" alt="Фон" fill />
+      </div>
+
+      <div className="relative z-10 flex min-h-[100lvh] flex-col justify-between bg-darkgray/70">
+        {children}
+      </div>
+
+      <div id="modal" />
+    </>
+  );
+};
