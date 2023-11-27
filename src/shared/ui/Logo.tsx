@@ -23,7 +23,7 @@ export function LogoNavbar() {
 }
 export function LogoAuth() {
   return (
-    <div className="mb-6 flex">
+    <div className="mb-5 flex">
       <Link href="/">
         <Logo />
       </Link>
