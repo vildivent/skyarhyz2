@@ -22,9 +22,13 @@ export function getUrl() {
  */
 export type RouterInputs = inferRouterInputs<AppRouter>;
 
+export type UserSubmit = RouterInputs["user"]["submit"];
+
 /**
  * Inference helper for outputs.
  *
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export type UserRegistration = RouterOutputs["user"]["registration"];
