@@ -1,11 +1,12 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import type { Role } from "@prisma/client";
 import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-
+import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
+import YandexProvider from "next-auth/providers/yandex";
 import { env } from "~/env";
 import { db } from "~/server/db";
 
@@ -19,15 +20,15 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      // ...other properties
-      // role: UserRole;
+      role: Role;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    lastName?: string | null;
+    phone?: string | null;
+    role?: Role;
+  }
 }
 
 /**
@@ -42,14 +43,42 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: user.id,
+        role: user.role,
       },
     }),
   },
   adapter: PrismaAdapter(db),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    GoogleProvider<GoogleProfile>({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name.split(" ").at(0),
+          lastName: profile.name.split(" ").at(1),
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
+    }),
+    YandexProvider({
+      clientId: env.YANDEX_CLIENT_ID,
+      clientSecret: env.YANDEX_CLIENT_SECRET,
+      authorization: "https://oauth.yandex.ru/authorize?scope=",
+      profile(profile) {
+        return {
+          id: profile.client_id,
+          email: profile.default_email,
+          name: profile.display_name ?? profile.login,
+          lastName: profile.real_name?.split(" ").at(1),
+          phone: profile.default_phone?.number,
+          image:
+            !profile.is_avatar_empty && profile.default_avatar_id
+              ? `https://avatars.yandex.net/get-yapic/${profile.default_avatar_id}/islands-200`
+              : null,
+        };
+      },
     }),
     /**
      * ...add more providers here.
@@ -61,6 +90,11 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  pages: {
+    signIn: "/signin",
+    newUser: "/registration",
+    signOut: "/signout",
+  },
 };
 
 /**
