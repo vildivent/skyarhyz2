@@ -55,8 +55,8 @@ export const authOptions: NextAuthOptions = {
       profile(profile) {
         return {
           id: profile.sub,
-          name: profile.name.split(" ").at(0),
-          lastName: profile.name.split(" ").at(1),
+          name: profile.given_name ?? profile.name.split(" ").at(0),
+          lastName: profile.family_name ?? profile.name.split(" ").at(1),
           email: profile.email,
           image: profile.picture,
         };
