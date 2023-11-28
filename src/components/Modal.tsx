@@ -6,7 +6,7 @@ import Button from "~/shared/ui/Button";
 import IconButton from "~/shared/ui/IconButton";
 
 type DeleteModalProps = {
-  title: string;
+  title: string | ReactNode;
   deleteHandler: () => void;
 } & Omit<ModalBlackscreenProps, "children">;
 export const DeleteModal = ({
@@ -18,7 +18,11 @@ export const DeleteModal = ({
   return (
     <ModalContainer isOpen={isOpen} setIsOpen={setIsOpen}>
       <div className="flex flex-col items-center gap-2">
-        <h2 className="text-center text-xl">{title}</h2>
+        {typeof title === "string" ? (
+          <h2 className="text-center font-p text-xl">{title}</h2>
+        ) : (
+          title
+        )}
         <div className="grid w-fit grid-cols-2 gap-5">
           <Button
             color="red"
@@ -29,7 +33,11 @@ export const DeleteModal = ({
           >
             Удалить
           </Button>
-          <Button color="gray" onClick={() => setIsOpen(false)}>
+          <Button
+            color="gray"
+            className="!w-full"
+            onClick={() => setIsOpen(false)}
+          >
             Отмена
           </Button>
         </div>
