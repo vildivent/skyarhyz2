@@ -10,3 +10,8 @@ h5,
 h6 {
   font-family: var(--font-alegrea);
 }
+
+* {
+  box-sizing: border-box;
+  border-color: #444444;
+}
