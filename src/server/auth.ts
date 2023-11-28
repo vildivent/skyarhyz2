@@ -65,12 +65,12 @@ export const authOptions: NextAuthOptions = {
     YandexProvider({
       clientId: env.YANDEX_CLIENT_ID,
       clientSecret: env.YANDEX_CLIENT_SECRET,
-      authorization: "https://oauth.yandex.ru/authorize?scope=",
+      // authorization: "https://oauth.yandex.ru/authorize?scope=",
       profile(profile) {
         return {
           id: profile.client_id,
           email: profile.default_email,
-          name: profile.display_name ?? profile.login,
+          name: profile.first_name ?? profile.display_name ?? profile.login,
           lastName: profile.real_name?.split(" ").at(1),
           phone: profile.default_phone?.number,
           image:
