@@ -14,7 +14,7 @@ export default function PrivacyPolicyCheckbox({
     <div className="flex gap-5">
       <Checkbox
         checked={checkbox}
-        onClick={() => setCheckbox((prev) => !prev)}
+        onChange={() => setCheckbox((prev) => !prev)}
       />
       <p className="my-5 text-xs">
         с{" "}

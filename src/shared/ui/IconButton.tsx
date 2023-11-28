@@ -78,6 +78,7 @@ export default function IconButton({
     <button
       className={`p-2 text-2xl transition hover:text-primary disabled:text-smoke/20 ${className}`}
       title={title ?? buttonType[btntype].title}
+      type="button"
       {...props}
     >
       {buttonType[btntype].icon}

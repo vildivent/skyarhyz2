@@ -21,7 +21,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`text-md h-fit rounded-md px-5 py-2 text-white no-underline transition disabled:opacity-50 ${buttonType[color]} ${className}`}
+      className={`text-md w-fit rounded-md px-5 py-2 text-white no-underline transition disabled:opacity-50 ${buttonType[color]} ${className}`}
       type="button"
       {...props}
     >
