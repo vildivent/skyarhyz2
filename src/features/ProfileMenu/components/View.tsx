@@ -1,18 +1,19 @@
 import { motion } from "framer-motion";
+import { useProfileMenuStore } from "../lib/store";
 
 type ViewProps = {
   content: React.ReactNode;
-  menuIsOpen: boolean;
 };
-export default function View({ content, menuIsOpen }: ViewProps) {
+export default function View({ content }: ViewProps) {
+  const { isOpen } = useProfileMenuStore();
   return (
     <motion.div
       className={`absolute right-0 flex flex-col border-b border-l bg-darkgray ${
-        menuIsOpen ? "" : "pointer-events-none opacity-0"
+        isOpen ? "" : "pointer-events-none opacity-0"
       }`}
       animate={{
-        y: menuIsOpen ? -1 : 20,
-        opacity: menuIsOpen ? 100 : 0,
+        y: isOpen ? -1 : 20,
+        opacity: isOpen ? 100 : 0,
         transition: {
           duration: 0.15,
         },

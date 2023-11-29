@@ -1,12 +1,12 @@
 import { HiOutlineUser } from "react-icons/hi2";
 import { getServerAuthSession } from "~/server/auth";
 import Line from "~/shared/ui/Line";
-import MenuLink from "~/shared/ui/Menu/MenuLink";
 import ContentAdmin from "./ContentAdmin";
 import ContentGuest from "./ContentGuest";
 import ContentUser from "./ContentUser";
 import LogoutButton from "./LogoutButton";
 import NotificationLink from "./NotificationLink";
+import ProfileMenuLink from "./ProfileMenuLink";
 
 export default async function Content() {
   const session = await getServerAuthSession();
@@ -15,7 +15,7 @@ export default async function Content() {
     <>
       {session.user.role !== "guest" && (
         <>
-          <MenuLink
+          <ProfileMenuLink
             href="/profile"
             title="Профиль"
             icon={<HiOutlineUser size={24} />}

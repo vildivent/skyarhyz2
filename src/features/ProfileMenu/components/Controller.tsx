@@ -1,19 +1,18 @@
 "use client";
-
-import { type ReactNode, useState } from "react";
+import { useProfileMenuStore } from "../lib/store";
 import Trigger from "./Trigger";
 import View from "./View";
 
 type ControllerProps = {
-  userAvatar: ReactNode;
-  content: ReactNode;
+  userAvatar: React.ReactNode;
+  content: React.ReactNode;
 };
 export default function Controller({ userAvatar, content }: ControllerProps) {
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const { setIsOpen } = useProfileMenuStore();
   return (
-    <div onMouseLeave={() => setMenuIsOpen(false)}>
-      <Trigger userAvatar={userAvatar} setMenuIsOpen={setMenuIsOpen} />
-      <View content={content} menuIsOpen={menuIsOpen} />
+    <div onMouseLeave={() => setIsOpen(false)}>
+      <Trigger userAvatar={userAvatar} />
+      <View content={content} />
     </div>
   );
 }

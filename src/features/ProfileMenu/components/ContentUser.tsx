@@ -1,15 +1,15 @@
-import MenuLink from "~/shared/ui/Menu/MenuLink";
 import { OrdersIcon, ReviewsIcon } from "~/shared/ui/icons";
+import ProfileMenuLink from "./ProfileMenuLink";
 
 export default function ContentUser() {
   return (
     <>
-      <MenuLink
+      <ProfileMenuLink
         href="/profile/orders"
         title="Мои заявки"
         icon={<OrdersIcon />}
       />
-      <MenuLink
+      <ProfileMenuLink
         href="/profile/reviews"
         title="Мои отзывы"
         icon={<ReviewsIcon />}

@@ -1,14 +1,13 @@
 "use client";
-
 import IconWithRedDot from "~/components/IconWithRedDot";
-import MenuLink from "~/shared/ui/Menu/MenuLink";
 import { NotificationsIcon } from "~/shared/ui/icons";
 import { api } from "~/trpc/react";
+import ProfileMenuLink from "./ProfileMenuLink";
 
 export default function NotificationLink() {
   const { data: newNotifications } = api.notification.getNewAmount.useQuery();
   return (
-    <MenuLink
+    <ProfileMenuLink
       href="/notifications"
       title={`Уведомления${
         newNotifications

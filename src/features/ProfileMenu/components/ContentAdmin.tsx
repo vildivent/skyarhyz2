@@ -1,28 +1,36 @@
 import { RxDashboard } from "react-icons/rx";
-import MenuLink from "~/shared/ui/Menu/MenuLink";
 import {
   GalleryIcon,
   NewsIcon,
   OrdersIcon,
   ReviewsIcon,
 } from "~/shared/ui/icons";
+import ProfileMenuLink from "./ProfileMenuLink";
 
 export default function ContentAdmin() {
   return (
     <>
-      <MenuLink
+      <ProfileMenuLink
         href="/dashboard"
         title="Панель управления"
         icon={<RxDashboard size={20} />}
       />
-      <MenuLink href="/dashboard/orders" title="Заявки" icon={<OrdersIcon />} />
-      <MenuLink href="/dashboard/news" title="Новости" icon={<NewsIcon />} />
-      <MenuLink
+      <ProfileMenuLink
+        href="/dashboard/orders"
+        title="Заявки"
+        icon={<OrdersIcon />}
+      />
+      <ProfileMenuLink
+        href="/dashboard/news"
+        title="Новости"
+        icon={<NewsIcon />}
+      />
+      <ProfileMenuLink
         href="/dashboard/gallery"
         title="Фотогалерея"
         icon={<GalleryIcon />}
       />
-      <MenuLink
+      <ProfileMenuLink
         href="/dashboard/reviews"
         title="Отзывы"
         icon={<ReviewsIcon />}
