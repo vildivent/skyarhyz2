@@ -12,15 +12,12 @@ export default function View({ children }: { children: React.ReactNode }) {
         <div
           className={`${
             isOpen ? "" : "translate-x-full"
-          } absolute bottom-0 right-0 top-0 h-full max-w-[100vw] border bg-darkgray transition-all duration-500`}
+          } absolute bottom-0 right-0 top-0 h-full max-w-[100vw] overflow-y-auto border bg-darkgray transition-all duration-500`}
         >
-          <div className="flex items-center justify-end p-2">
+          <div className="sticky top-0 z-10 flex items-center justify-end bg-darkgray p-2">
             <IconButton btntype="close" onClick={() => setIsOpen(false)} />
           </div>
-          {/* change height when change size of top section with close button */}
-          <div className="h-[calc(100lvh-3.5rem)] overflow-y-auto">
-            {children}
-          </div>
+          {children}
         </div>
       </ModalBlackscreen>
     </>
