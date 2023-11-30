@@ -1,4 +1,8 @@
 import { z } from "zod";
+import {
+  phoneNumberLength,
+  phoneNumberLengthFormatted,
+} from "~/shared/constants";
 
 export const ZUserSubmit = z.object({
   name: z
@@ -12,8 +16,8 @@ export const ZUserSubmit = z.object({
     .nullable(),
   phone: z
     .string()
-    .min(12, "Некорректный номер телефона")
-    .max(12, "Некорректный номер телефона"),
+    .min(phoneNumberLength, "Некорректный номер телефона")
+    .max(phoneNumberLength, "Некорректный номер телефона"),
 });
 export const ZUserSubmitForm = z.object({
   name: z
@@ -27,6 +31,6 @@ export const ZUserSubmitForm = z.object({
     .nullable(),
   phone: z
     .string()
-    .min(18, "Некорректный номер телефона")
-    .max(18, "Некорректный номер телефона"),
+    .min(phoneNumberLengthFormatted, "Некорректный номер телефона")
+    .max(phoneNumberLengthFormatted, "Некорректный номер телефона"),
 });

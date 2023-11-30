@@ -32,3 +32,4 @@ export type UserSubmit = RouterInputs["user"]["submit"];
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 export type UserRegistration = RouterOutputs["user"]["registration"];
+export type UserForOrder = RouterOutputs["user"]["forOrder"];

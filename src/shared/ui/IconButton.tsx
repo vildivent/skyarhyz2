@@ -7,7 +7,6 @@ import {
   AiOutlineDown,
   AiOutlineEdit,
   AiOutlineMenu,
-  AiOutlineQuestionCircle,
   AiOutlineSearch,
   AiOutlineStar,
 } from "react-icons/ai";
@@ -15,6 +14,7 @@ import { BiFilterAlt } from "react-icons/bi";
 import { BsListCheck, BsPeople, BsThreeDotsVertical } from "react-icons/bs";
 import { FaSortDown, FaSortUp } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
+import { MdOutlineQuestionMark } from "react-icons/md";
 import { NotificationsIcon, ResetFilterIcon } from "./icons";
 
 type Key =
@@ -48,7 +48,7 @@ const buttonType: ButtonType = {
   edit: { title: "Редактировать", icon: <AiOutlineEdit /> },
   star: { icon: <AiOutlineStar /> },
   starFill: { icon: <AiFillStar /> },
-  info: { icon: <AiOutlineQuestionCircle /> },
+  info: { icon: <MdOutlineQuestionMark /> },
   check: { title: "Подтвердить", icon: <AiOutlineCheck /> },
   filter: { title: "Фильтры", icon: <BiFilterAlt /> },
   filterReset: { title: "Сбросить Фильтры", icon: <ResetFilterIcon /> },
