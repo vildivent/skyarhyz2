@@ -36,7 +36,7 @@ export default function Links() {
         padding
       />
       <SidebarMenuLink
-        href="/photogallery"
+        href="/gallery"
         title="Фотогалерея"
         icon={<GalleryIcon />}
         padding
