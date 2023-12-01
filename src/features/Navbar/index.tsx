@@ -8,10 +8,16 @@ import NotificationsNavbar from "../Notifications/components/NotificationsNavbar
 
 export default async function Navbar() {
   const session = await getServerAuthSession();
+  const isAdmin =
+    session?.user.role === "admin" || session?.user.role === "root";
   return (
     <nav className="sticky left-0 right-0 top-0 z-20 flex h-12 border-b bg-darkgray text-center">
       <LogoNavbar />
-      <LinksRouter links={<Links />} linksDashboard={<LinksDashboard />} />
+      <LinksRouter
+        links={<Links />}
+        linksDashboard={<LinksDashboard />}
+        isAdmin={isAdmin}
+      />
       <div className="flex flex-1 justify-end gap-2">
         {session && <NotificationsNavbar />}
         <ProfileMenu />
