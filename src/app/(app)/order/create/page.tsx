@@ -1,15 +1,12 @@
-import { redirect } from "next/navigation";
-import { env } from "~/env";
 import OrderCreateForm from "~/features/OrderCreateForm";
-import { getServerAuthSession } from "~/server/auth";
+import authCheck from "~/shared/utils/authCheck";
+
+export const metadata = {
+  title: "Оставить заявку | SkyArhyz",
+  description: "Оставить заявку",
+};
 
 export default async function OrderCreate() {
-  const session = await getServerAuthSession();
-  if (!session)
-    redirect(
-      `/api/auth/signin?callbackUrl=${encodeURI(
-        env.NEXTAUTH_URL + "/order/create",
-      )}`,
-    );
+  await authCheck("/order/create");
   return <OrderCreateForm />;
 }

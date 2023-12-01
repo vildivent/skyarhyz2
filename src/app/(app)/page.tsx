@@ -2,6 +2,11 @@ import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
 import Button from "~/shared/ui/Button";
 
+export const metadata = {
+  title: "Главная | SkyArhyz",
+  description: "SkyArhyz",
+};
+
 export default async function Home() {
   const session = await getServerAuthSession();
 
