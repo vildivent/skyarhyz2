@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import type { Session } from "next-auth";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 
 export const adminCheck = async (callbackPath?: string) => {
@@ -11,7 +11,8 @@ export const adminCheck = async (callbackPath?: string) => {
         callbackPath ? "?callbackUrl=" + encodeURIComponent(callbackPath) : ""
       }`,
     );
-  if (session.user.role !== "admin" && session.user.role !== "root") notFound();
+  if (session.user.role !== "admin" && session.user.role !== "root")
+    redirect("/");
 };
 
 export const adminCheckAPI = (session: Session) => {

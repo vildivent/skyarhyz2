@@ -5,12 +5,12 @@ export default function ContentUser() {
   return (
     <>
       <ProfileMenuLink
-        href="/profile/orders"
+        href="/my-orders"
         title="Мои заявки"
         icon={<OrdersIcon />}
       />
       <ProfileMenuLink
-        href="/profile/reviews"
+        href="/my-reviews"
         title="Мои отзывы"
         icon={<ReviewsIcon />}
       />
