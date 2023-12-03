@@ -25,7 +25,7 @@ export default function IconWithTooltip({
       <Tooltip
         id={"tooltip-" + id}
         place="bottom"
-        className="z-10 border"
+        className="z-10 border !bg-darkgray !text-smoke"
         noArrow
         opacity={1}
       />
