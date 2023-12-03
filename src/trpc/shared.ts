@@ -24,6 +24,7 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
 
 export type UserSubmit = RouterInputs["user"]["submit"];
 
+export type OrderGetByAdminInput = RouterInputs["order"]["getByAdmin"];
 /**
  * Inference helper for outputs.
  *
