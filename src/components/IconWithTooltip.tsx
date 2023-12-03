@@ -22,7 +22,13 @@ export default function IconWithTooltip({
       >
         {icon}
       </div>
-      <Tooltip id={"tooltip-" + id} place="bottom" className="border" noArrow />
+      <Tooltip
+        id={"tooltip-" + id}
+        place="bottom"
+        className="z-10 border"
+        noArrow
+        opacity={1}
+      />
     </>
   );
 }
