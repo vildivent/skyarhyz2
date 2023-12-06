@@ -15,6 +15,9 @@ export function getUrl() {
   return getBaseUrl() + "/api/trpc";
 }
 
+type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+
 /**
  * Inference helper for inputs.
  *
@@ -25,6 +28,8 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
 export type UserSubmit = RouterInputs["user"]["submit"];
 
 export type OrderGetByAdminInput = RouterInputs["order"]["getByAdmin"];
+export type OrderUpdateByAdminInput = RouterInputs["order"]["updateByAdmin"];
+export type OrderUpdateByUserInput = RouterInputs["order"]["updateByUser"];
 /**
  * Inference helper for outputs.
  *
@@ -34,3 +39,8 @@ export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 export type UserRegistration = RouterOutputs["user"]["registration"];
 export type UserForOrder = RouterOutputs["user"]["forOrder"];
+
+export type OrderGetByAdminOutput = RouterOutputs["order"]["getByAdmin"];
+export type OrderGetByUserOutput = RouterOutputs["order"]["getByUser"];
+export type OrderAdmin = ArrayElement<OrderGetByAdminOutput>;
+export type OrderUser = ArrayElement<OrderGetByUserOutput>;
