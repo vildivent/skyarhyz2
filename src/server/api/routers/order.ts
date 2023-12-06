@@ -7,7 +7,7 @@ import {
   ZOrderGetById,
   ZOrderUpdateByAdmin,
   ZOrderUpdateByUser,
-} from "~/entities/Order/validation";
+} from "~/features/Order/lib/validation";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -103,8 +103,8 @@ export const orderRouter = createTRPCRouter({
         where: { id: input.id },
         data: {
           groupSize: input.groupSize,
-          dateFrom: input.dateFrom,
-          dateTo: input.dateTo,
+          dateFrom: input.dateFrom ?? undefined,
+          dateTo: input.dateTo ?? undefined,
           note: input.note,
           status: input.status,
           excursionStatus: input.excursionStatus,
@@ -156,8 +156,8 @@ export const orderRouter = createTRPCRouter({
         where: { id: input.id },
         data: {
           groupSize: input.groupSize,
-          dateFrom: input.dateFrom,
-          dateTo: input.dateTo,
+          dateFrom: input.dateFrom ?? undefined,
+          dateTo: input.dateTo ?? undefined,
           comment: input.comment,
         },
       });

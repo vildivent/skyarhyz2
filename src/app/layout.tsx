@@ -36,7 +36,7 @@ const LayoutBg = ({ children }: { children: ReactNode }) => {
         <Image className="object-cover" src="/bg.jpg" alt="Фон" fill />
       </div>
 
-      <div className="relative z-10 flex min-h-[100lvh] flex-col justify-between bg-darkgray/70">
+      <div className="relative z-10 flex min-h-[100svh] flex-col justify-between bg-darkgray/70">
         {children}
       </div>
 

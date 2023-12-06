@@ -1,3 +1,4 @@
+"use client";
 import { useLayoutEffect, useState } from "react";
 import DatePicker, { Calendar, DateObject } from "react-multi-date-picker";
 import ru from "~/shared/constants/calendar/locale/gregorian_ru";
