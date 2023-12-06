@@ -39,13 +39,13 @@ export const ZOrderCreate = z.object({
     .max(12, "Некорректный номер телефона"),
   groupSize: z
     .number()
-    .min(1, "Минимальное количество человек - 1")
+    .min(1, "Введите размер группы")
     .max(99, "Максимальное количество человек - 99"),
   dateFrom: z.date(),
   dateTo: z.date(),
   comment: z
     .string()
-    .max(500, "Максимальное количество символов - 500")
+    .max(300, "Максимальное количество символов - 300")
     .optional(),
   referral: z.string().optional(),
   promocode: z.string().optional(),
@@ -53,9 +53,23 @@ export const ZOrderCreate = z.object({
 
 export const ZOrderUpdateByAdmin = z.object({
   id: z.string().min(1),
-  groupSize: z.number().min(1).max(99).optional(),
-  dateFrom: z.date().optional(),
-  dateTo: z.date().optional(),
+  groupSize: z
+    .number()
+    .min(1, "Введите размер группы")
+    .max(99, "Максимальное количество человек - 99")
+    .optional(),
+  dateFrom: z
+    .date()
+    .nullish()
+    .refine((val) => val !== null, {
+      message: "Введите даты",
+    }),
+  dateTo: z
+    .date()
+    .nullish()
+    .refine((val) => val !== null, {
+      message: "Введите даты",
+    }),
   note: z.string().nullish(),
   status: orderStatus.optional(),
   groupNumber: z.number().min(0).max(7).optional(),
@@ -76,11 +90,21 @@ export const ZOrderUpdateByUser = z.object({
     .optional(),
   groupSize: z
     .number()
-    .min(1, "Минимальное количество человек - 1")
+    .min(1, "Введите размер группы")
     .max(99, "Максимальное количество человек - 99")
     .optional(),
-  dateFrom: z.date().optional(),
-  dateTo: z.date().optional(),
+  dateFrom: z
+    .date()
+    .nullish()
+    .refine((val) => val !== null, {
+      message: "Введите даты",
+    }),
+  dateTo: z
+    .date()
+    .nullish()
+    .refine((val) => val !== null, {
+      message: "Введите даты",
+    }),
   comment: z
     .string()
     .max(300, "Максимальное количество символов - 300")
