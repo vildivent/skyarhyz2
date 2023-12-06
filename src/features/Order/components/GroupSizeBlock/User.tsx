@@ -1,12 +1,9 @@
 "use client";
-import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import { GoPerson } from "react-icons/go";
-import IconWithTooltip from "~/components/IconWithTooltip";
-import FormError from "~/shared/ui/FormError";
 import { GroupSizeInput } from "~/shared/ui/inputs";
-import { api } from "~/trpc/react";
-import Edit from "../Edit";
+import FieldUpdate from "../FieldUpdate";
+import FieldView from "../FieldView";
 
 type GroupSizeBlockProps = {
   id: string;
@@ -20,75 +17,44 @@ export default function GroupSizeBlockUser({
 }: GroupSizeBlockProps) {
   const size = 20;
   const [groupSize, setGroupSize] = useState(currentGroupSize);
-  const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState("");
-  const { mutate: update, isLoading } = api.order.updateByUser.useMutation({
-    onSuccess: async () => {
-      setIsEditing(false);
-    },
-    onError: (error) => {
-      const groupSizeError = error.data?.zodError?.fieldErrors.groupSize?.at(0);
-      if (groupSizeError) return setError(groupSizeError);
-      setError("Не удалось обновить!");
-    },
-  });
-
-  const updateHandler = () => {
-    update({ id, groupSize });
-  };
+  const [reset, setReset] = useState(false);
 
   useEffect(() => {
-    setIsEditing(false);
+    setReset((prev) => !prev);
     setError("");
     setGroupSize(currentGroupSize);
   }, [editable, currentGroupSize]);
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2">
-        <IconWithTooltip
-          id={"groupSize-" + id}
-          icon={<GoPerson size={size} />}
-          tooltip="Размер группы"
+    <FieldView
+      id={"groupSize-" + id}
+      icon={<GoPerson size={size} />}
+      tooltip="Размер группы"
+      error={error}
+    >
+      <FieldUpdate
+        type="user"
+        data={{ id, groupSize }}
+        defaultView={<DefaultView groupSize={groupSize} />}
+        setError={setError}
+        editable={editable}
+        errorName="groupSize"
+        reset={reset}
+      >
+        <GroupSizeInput
+          name="groupSize"
+          value={groupSize}
+          onChange={(e) => {
+            setError("");
+            setGroupSize(+e.target.value);
+          }}
         />
-        <Edit
-          defaultView={<DefaultView groupSize={groupSize} />}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          submit={updateHandler}
-          isLoading={isLoading}
-          editable={editable}
-        >
-          <EditView
-            groupSize={groupSize}
-            setGroupSize={setGroupSize}
-            setError={setError}
-          />
-        </Edit>
-      </div>
-      <FormError error={error} iconMargin />
-    </div>
+      </FieldUpdate>
+    </FieldView>
   );
 }
 
 function DefaultView({ groupSize }: { groupSize: number }) {
   return <span className="ml-5">{groupSize.toString() + " чел."}</span>;
-}
-
-type EditViewProps = {
-  groupSize: number;
-  setGroupSize: Dispatch<SetStateAction<number>>;
-  setError: Dispatch<SetStateAction<string>>;
-};
-function EditView({ groupSize, setGroupSize, setError }: EditViewProps) {
-  return (
-    <GroupSizeInput
-      name="groupSize"
-      value={groupSize}
-      onChange={(e) => {
-        setError("");
-        setGroupSize(+e.target.value);
-      }}
-    />
-  );
 }
