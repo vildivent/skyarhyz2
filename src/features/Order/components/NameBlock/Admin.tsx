@@ -2,7 +2,7 @@ import Link from "next/link";
 
 type NameBlockProps = {
   name: string;
-  userId: string | null;
+  userId?: string | null;
 };
 export default function NameBlockAdmin({ name, userId }: NameBlockProps) {
   return (

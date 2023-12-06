@@ -6,24 +6,22 @@ import { CalendarWidget, DatePickerWidget } from "~/features/DatePicker";
 import FormError from "~/shared/ui/FormError";
 import { dateToString } from "~/shared/utils/formatDate";
 import { api } from "~/trpc/react";
-import type { OrderGetByAdminInput } from "~/trpc/shared";
 import Edit from "../Edit";
 
 type DateBlockProps = {
   id: string;
   dateFrom: Date;
   dateTo: Date;
-  query: OrderGetByAdminInput;
   editable?: boolean;
 };
 export default function DateBlockAdmin({
   id,
   dateFrom,
   dateTo,
-  query,
   editable = true,
 }: DateBlockProps) {
   const size = 20;
+  const query = {};
   const [dates, setDates] = useState<{
     dateFrom: Date | null;
     dateTo: Date | null;
@@ -64,7 +62,7 @@ export default function DateBlockAdmin({
   }, [editable, dateFrom.toDateString(), dateTo.toDateString()]);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col">
       <div className="flex items-center gap-2">
         <IconWithTooltip
           id={"admin-dates" + id}
@@ -90,7 +88,7 @@ export default function DateBlockAdmin({
         </Edit>
       </div>
       <FormError error={error} iconMargin />
-      <div className="z-0 -mt-2 mb-4 flex justify-center">
+      <div className="z-0 mb-4 flex justify-center">
         <CalendarWidget dateRange={[dateFrom, dateTo]} />
       </div>
     </div>

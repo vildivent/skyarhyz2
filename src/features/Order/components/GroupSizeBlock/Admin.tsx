@@ -2,26 +2,24 @@
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import { GoPerson } from "react-icons/go";
+import IconWithTooltip from "~/components/IconWithTooltip";
 import FormError from "~/shared/ui/FormError";
 import { GroupSizeInput } from "~/shared/ui/inputs";
 import { api } from "~/trpc/react";
-import type { OrderGetByAdminInput } from "~/trpc/shared";
 import Edit from "../Edit";
-import IconWithTooltip from "~/components/IconWithTooltip";
 
 type GroupSizeBlockProps = {
   id: string;
   currentGroupSize: number;
-  query: OrderGetByAdminInput;
   editable?: boolean;
 };
 export default function GroupSizeBlockAdmin({
   id,
   currentGroupSize,
-  query,
   editable = true,
 }: GroupSizeBlockProps) {
   const size = 20;
+  const query = {};
   const [groupSize, setGroupSize] = useState(currentGroupSize);
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState("");
@@ -51,7 +49,7 @@ export default function GroupSizeBlockAdmin({
   }, [editable, currentGroupSize]);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col">
       <div className="flex items-center gap-2">
         <IconWithTooltip
           id={"admin-groupSize-" + id}
