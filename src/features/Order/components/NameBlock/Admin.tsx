@@ -6,10 +6,10 @@ type NameBlockProps = {
 };
 export default function NameBlockAdmin({ name, userId }: NameBlockProps) {
   return (
-    <div className="my-auto flex gap-2 overflow-hidden text-ellipsis">
+    <div className="my-auto flex h-10 items-center overflow-hidden text-ellipsis">
       {userId ? (
         <Link
-          className="my-auto ml-[4.25rem] underline hover:text-primary"
+          className="my-auto ml-[3.75rem] underline hover:text-primary"
           href={`/profile?id=${userId}`}
         >
           {name}

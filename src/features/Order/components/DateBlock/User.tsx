@@ -1,8 +1,8 @@
 "use client";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 import { CalendarWidget, DatePickerWidget } from "~/features/DatePicker";
-import { dateToString } from "~/shared/utils/formatDate";
 import FieldUpdate from "../FieldUpdate";
 import FieldView from "../FieldView";
 
@@ -82,7 +82,7 @@ type DefaultViewProps = {
   dateTo: Date | null;
 };
 function DefaultView({ dateFrom, dateTo }: DefaultViewProps) {
-  const stringFrom = dateFrom ? dateToString(dateFrom) : "";
-  const stringTo = dateTo ? " - " + dateToString(dateTo) : "";
+  const stringFrom = dateFrom ? format(dateFrom, "dd.MM.y") : "";
+  const stringTo = dateTo ? " - " + format(dateTo, "dd.MM.y") : "";
   return <span className="ml-5">{stringFrom + stringTo}</span>;
 }

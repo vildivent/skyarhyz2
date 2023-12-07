@@ -13,7 +13,7 @@ export default function PhoneNumberBlockAdmin({
   const size = 20;
   const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center md:gap-2">
       <IconWithTooltip
         id={"admin-tel-" + id}
         icon={<FiPhone size={size} />}

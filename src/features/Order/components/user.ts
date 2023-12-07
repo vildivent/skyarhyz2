@@ -1,6 +1,5 @@
 import CommentBlock from "./CommentBlock/User";
 import DateBlock from "./DateBlock/User";
-import ExcursionDateBlock from "./ExcursionDateBlock/User";
 import GroupSizeBlock from "./GroupSizeBlock/User";
 import NameBlock from "./NameBlock/User";
 import PhoneNumberBlock from "./PhoneNumberBlock/User";
@@ -15,5 +14,4 @@ export {
   CommentBlock,
   PromocodeBlock,
   StatusBlock,
-  ExcursionDateBlock,
 };

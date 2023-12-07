@@ -1,7 +1,9 @@
 import { DateObject } from "react-multi-date-picker";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 
 export const dateToString = (date: Date) =>
-  new DateObject(date).format("DD.MM.YYYY");
+  format(date, "d MMMM y", { locale: ru });
 export const timeToString = (date: Date) =>
   new DateObject(date).format("HH:mm");
 export const dateTimeToString = (date: Date) =>

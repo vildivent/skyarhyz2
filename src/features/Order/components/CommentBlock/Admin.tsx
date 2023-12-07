@@ -9,7 +9,7 @@ export default function CommentBlockAdmin({ id, comment }: CommentBlockProps) {
   const size = 20;
   if (!comment) return null;
   return (
-    <div className="flex items-start gap-2">
+    <div className="flex items-start md:gap-2">
       <IconWithTooltip
         id={"admin-comment" + id}
         icon={<FaRegCommentDots size={size} />}

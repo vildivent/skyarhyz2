@@ -1,73 +1,67 @@
 "use client";
 import { ExcursionStatus } from "@prisma/client";
-import { useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineDocumentCheck } from "react-icons/hi2";
-import IconWithTooltip from "~/components/IconWithTooltip";
-import FormError from "~/shared/ui/FormError";
 import { SelectInput } from "~/shared/ui/inputs";
 import { api } from "~/trpc/react";
 import { orderExcursionStatusMapper } from "../../lib/helpers";
-import Edit from "../Edit";
+import FieldUpdate from "../FieldUpdate";
+import FieldView from "../FieldView";
 
 type ExcursionStatusBlockProps = {
   id: string;
   currentExcursionStatus: ExcursionStatus | null;
+  editable?: boolean;
 };
 export default function ExcursionStatusBlockAdmin({
   id,
   currentExcursionStatus,
+  editable = true,
 }: ExcursionStatusBlockProps) {
   const size = 23;
-  const query = {};
-  const router = useRouter();
-  const ctx = api.useUtils();
-  const {
-    mutate: update,
-    isLoading,
-    isError,
-  } = api.order.updateByAdmin.useMutation({
-    onSuccess: async () => {
-      await ctx.order.getByAdmin.invalidate(query);
-      //   await ctx.excursion.invalidate();
-      router.refresh();
-    },
-  });
-
   const [excursionStatus, setExcursionStatus] = useState(
     currentExcursionStatus,
   );
-  const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState("");
+  const [reset, setReset] = useState(false);
+  const ctx = api.useUtils();
+  const query = {};
 
-  function submitHandler() {
-    update({ id, excursionStatus });
+  useEffect(() => {
+    setReset((prev) => !prev);
+    setError("");
+    setExcursionStatus(currentExcursionStatus);
+  }, [editable, currentExcursionStatus]);
+
+  async function onSuccess() {
+    await ctx.order.getByAdmin.invalidate(query);
+    //   await ctx.excursion.invalidate();
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="my-2 flex items-center gap-2">
-        <IconWithTooltip
-          id={"admin-excursionStatus-" + id}
-          icon={<HiOutlineDocumentCheck size={size} />}
-          tooltip="Статус записи на экскурсию"
+    <FieldView
+      id={"admin-excursionStatus-" + id}
+      icon={<HiOutlineDocumentCheck size={size} />}
+      tooltip="Статус записи на экскурсию"
+      error={error}
+    >
+      <FieldUpdate
+        type="admin"
+        data={{ id, excursionStatus }}
+        defaultView={<DefaultView excursionStatus={excursionStatus} />}
+        setError={setError}
+        editable={editable}
+        errorName="excursionStatus"
+        reset={reset}
+        onSuccess={onSuccess}
+      >
+        <EditView
+          excursionStatus={excursionStatus}
+          setExcursionStatus={setExcursionStatus}
         />
-        <Edit
-          defaultView={<DefaultView excursionStatus={excursionStatus} />}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          submit={submitHandler}
-          isLoading={isLoading}
-          editable
-        >
-          <EditView
-            excursionStatus={excursionStatus}
-            setExcursionStatus={setExcursionStatus}
-          />
-        </Edit>
-        <FormError error={isError ? "Не удалось обновить" : ""} iconMargin />
-      </div>
-    </div>
+      </FieldUpdate>
+    </FieldView>
   );
 }
 
@@ -78,7 +72,7 @@ function DefaultView({
 }) {
   return (
     <span className="my-auto ml-5 overflow-hidden text-ellipsis">
-      {excursionStatus}
+      {orderExcursionStatusMapper(excursionStatus ?? "")}
     </span>
   );
 }
@@ -91,6 +85,7 @@ function EditView({ excursionStatus, setExcursionStatus }: EditViewProps) {
   return (
     <SelectInput
       name="excursionStatus"
+      className="grow-0"
       value={excursionStatus ?? ""}
       onChange={(e) =>
         setExcursionStatus(

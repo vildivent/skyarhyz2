@@ -12,7 +12,7 @@ export default function TopMenu({ isOpen, setIsOpen, children }: TopMenuProps) {
       {children}
       <IconButton
         btntype="arrowDown"
-        className={`${isOpen ? "rotate-180" : ""}`}
+        className={`[&_svg]:transition ${isOpen ? "[&_svg]:rotate-180" : ""}`}
         onClick={() => setIsOpen(!isOpen)}
       />
     </div>

@@ -1,12 +1,13 @@
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 import { BiTimeFive } from "react-icons/bi";
 import IconWithTooltip from "~/components/IconWithTooltip";
-import { dateTimeToString } from "~/shared/utils/formatDate";
 
 type ExcursionDateBlockProps = {
   id: string;
   date?: Date | null;
 };
-export default function ExcursionDateBlockUser({
+export default function ExcursionDateBlock({
   id,
   date,
 }: ExcursionDateBlockProps) {
@@ -22,7 +23,9 @@ export default function ExcursionDateBlockUser({
       />
       <div className="my-auto ml-5 flex flex-wrap gap-2">
         <span className="whitespace-nowrap">Дата экскурсии:</span>
-        <span className="whitespace-nowrap">{dateTimeToString(date)}</span>
+        <span className="whitespace-nowrap">
+          {format(date, "d MMMM y г. HH:mm", { locale: ru })}
+        </span>
       </div>
     </div>
   );

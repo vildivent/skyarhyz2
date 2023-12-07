@@ -1,17 +1,17 @@
 import Container from "~/shared/ui/Container";
+import Line from "~/shared/ui/Line";
 import type { OrderUser } from "~/trpc/shared";
+import ExcursionDateBlock from "../components/ExcursionDateBlock";
 import ViewController from "../components/ViewController";
 import {
   CommentBlock,
   DateBlock,
-  ExcursionDateBlock,
   GroupSizeBlock,
   NameBlock,
   PhoneNumberBlock,
   PromocodeBlock,
   StatusBlock,
 } from "../components/user";
-import Line from "~/shared/ui/Line";
 
 export default function UserOrder({ order }: { order: OrderUser }) {
   const editable = order.status === "new" || order.status === "registered";

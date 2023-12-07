@@ -1,6 +1,7 @@
-"use client";
 import Container from "~/shared/ui/Container";
+import Line from "~/shared/ui/Line";
 import type { OrderAdmin } from "~/trpc/shared";
+import ExcursionDateBlock from "../components/ExcursionDateBlock";
 import ViewController from "../components/ViewController";
 import {
   CommentBlock,
@@ -38,13 +39,15 @@ export default function AdminOrder({ order }: { order: OrderAdmin }) {
           dateTo={order.dateTo}
         />
         <CommentBlock id={order.id} comment={order.comment} />
+        {/* <PromocodeBlock promocode={order.promocode?.code || null} /> */}
+        <Line />
         <ExcursionStatusBlock
           id={order.id}
           currentExcursionStatus={order.excursionStatus}
         />
-        {/* <PromocodeBlock promocode={order.promocode?.code || null} /> */}
+
         {/* <StatusBlock id={order.id} status={order.status} /> */}
-        {/* <ExcursionDateBlock id={order.id} date={order.excursionGroup?.time} /> */}
+        <ExcursionDateBlock id={order.id} date={order.excursionGroup?.time} />
         {/*<TimestampBlock date={order.createdAt} /> */}
       </ViewController>
     </Container>
