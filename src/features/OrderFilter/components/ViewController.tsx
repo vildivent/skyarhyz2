@@ -35,10 +35,7 @@ export default function ViewController({
       </div>
 
       <ModalBlackscreen isOpen={isOpen} setIsOpen={setIsOpen}>
-        <Animation
-          isOpen={isOpen}
-          className="absolute -left-[301px] top-0 md:-left-[309px]"
-        >
+        <Animation isOpen={isOpen} className="absolute left-0 top-0">
           <Container
             className="gap-2 pb-10 outline-none"
             tabIndex={-1}

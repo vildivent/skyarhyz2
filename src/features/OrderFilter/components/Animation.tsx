@@ -15,7 +15,7 @@ export default function Animation({
     <motion.div
       className={className}
       animate={{
-        x: isOpen ? "100%" : 0,
+        x: isOpen ? 0 : "-100%",
         pointerEvents: isOpen ? "auto" : "none",
         transition: {
           duration: 0.3,
