@@ -19,9 +19,11 @@ export const orderRouter = createTRPCRouter({
   create: protectedProcedure
     .input(ZOrderCreate)
     .mutation(async ({ ctx, input }) => {
-      const referral = await ctx.db.partner.findUnique({
-        where: { referralId: input.referral },
-      });
+      let referral = null;
+      if (input.referral)
+        referral = await ctx.db.partner.findUnique({
+          where: { referralId: input.referral },
+        });
 
       let promocode = null;
       if (input.promocode) {
