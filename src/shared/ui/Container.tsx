@@ -7,7 +7,7 @@ export default function Container({
 }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
   return (
     <div
-      className={`flex w-full flex-col text-ellipsis rounded-lg border bg-darkgray/70 p-5 backdrop-blur-md ${className}`}
+      className={`flex w-full flex-col text-ellipsis rounded-lg border bg-darkgray/70 p-5 ${className}`}
       {...props}
     >
       {children}
