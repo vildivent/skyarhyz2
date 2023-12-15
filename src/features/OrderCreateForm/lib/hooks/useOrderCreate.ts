@@ -12,16 +12,23 @@ export default function useOrderCreate({
   onSuccess,
   onError,
 }: SubmitUserConfig) {
-  const { mutate: create, isLoading } = api.order.create.useMutation({
+  const {
+    mutate: create,
+    isLoading,
+    isSuccess,
+  } = api.order.create.useMutation({
     onSuccess: async () => {
       if (onSuccess) await onSuccess();
     },
-    onError: async () => {
+    onError: async (error) => {
       const serverErrorMessage =
         "Произошла ошибка создания заявки. Попробуйте снова или обратитесь к администратору.";
-      setError("root", { message: serverErrorMessage });
+      const invalidPromododeMessage = "Недействительный промокод";
+      if (error.message.includes("invalid promocode"))
+        setError("promocode", { message: invalidPromododeMessage });
+      else setError("root", { message: serverErrorMessage });
       if (onError) await onError();
     },
   });
-  return { create, isLoading };
+  return { create, isLoading, isSuccess };
 }

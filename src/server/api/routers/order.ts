@@ -16,69 +16,47 @@ import {
 import { adminCheckAPI } from "~/shared/utils/adminCheck";
 
 export const orderRouter = createTRPCRouter({
-  create: publicProcedure
+  create: protectedProcedure
     .input(ZOrderCreate)
     .mutation(async ({ ctx, input }) => {
-      let currentOrderId: string | null = null;
-      if (!ctx.session) {
-        const order = await ctx.db.order.create({
-          data: {
-            name: input.name,
-            phoneNumber: input.phoneNumber,
-            groupSize: input.groupSize,
-            dateFrom: input.dateFrom,
-            dateTo: input.dateTo,
-            comment: input.comment,
-          },
+      const referral = await ctx.db.partner.findUnique({
+        where: { referralId: input.referral },
+      });
+
+      let promocode = null;
+      if (input.promocode) {
+        promocode = await ctx.db.promocode.findUnique({
+          where: { code: input.promocode },
         });
-        currentOrderId = order.id;
-      } else {
-        const order = await ctx.db.order.create({
-          data: {
-            name: input.name,
-            phoneNumber: input.phoneNumber,
-            groupSize: input.groupSize,
-            dateFrom: input.dateFrom,
-            dateTo: input.dateTo,
-            comment: input.comment,
-            userId: ctx.session.user.id,
-          },
-        });
-        currentOrderId = order.id;
-
-        // const partner = await ctx.db.partner.findUnique({
-        //   where: { referralId: input.referral },
-        // });
-        // if (partner)
-        //   await ctx.db.order.update({
-        //     where: { id: order.id },
-        //     data: { partnerId: partner.id },
-        //   });
-
-        // const promocode = await ctx.db.promocode.findUnique({
-        //   where: { code: input.promocode },
-        // });
-        // if (promocode)
-        //   await ctx.db.order.update({
-        //     where: { id: order.id },
-        //     data: { promocodeId: promocode.id },
-        //   });
-
-        // if (promocode && !partner)
-        //   await ctx.db.order.update({
-        //     where: { id: order.id },
-        //     data: { partnerId: promocode.partnerId },
-        //   });
-
-        await ctx.db.notification.create({
-          data: {
-            text: notificationMessages.userOrderCreate,
-            userId: ctx.session.user.id,
-            orderId: order.id,
-          },
-        });
-        //send telegram notification
+        if (!promocode?.valid)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "invalid promocode",
+          });
       }
+
+      const order = await ctx.db.order.create({
+        data: {
+          name: input.name,
+          phoneNumber: input.phoneNumber,
+          groupSize: input.groupSize,
+          dateFrom: input.dateFrom,
+          dateTo: input.dateTo,
+          comment: input.comment,
+          userId: ctx.session.user.id,
+          promocodeId: promocode?.id,
+          partnerId: referral?.id,
+        },
+      });
+
+      await ctx.db.notification.create({
+        data: {
+          text: notificationMessages.userOrderCreate,
+          userId: ctx.session.user.id,
+          orderId: order.id,
+        },
+      });
+      //send telegram notification
 
       const admins = await ctx.db.user.findMany({
         where: { role: "admin" },
@@ -86,12 +64,27 @@ export const orderRouter = createTRPCRouter({
       const data = admins.map((admin) => ({
         text: notificationMessages.adminOrderCreate,
         userId: admin.id,
-        orderId: currentOrderId,
+        orderId: order.id,
       }));
 
       await ctx.db.notification.createMany({ data });
 
       //send telegram notifications
+    }),
+
+  createNoAuth: publicProcedure
+    .input(ZOrderCreate)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.order.create({
+        data: {
+          name: input.name,
+          phoneNumber: input.phoneNumber,
+          groupSize: input.groupSize,
+          dateFrom: input.dateFrom,
+          dateTo: input.dateTo,
+          comment: input.comment,
+        },
+      });
     }),
 
   updateByAdmin: protectedProcedure
