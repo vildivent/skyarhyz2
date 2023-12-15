@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import Image from "next/image";
 import type { ReactNode } from "react";
-import "~/styles/globals.css";
+import "../styles/globals.css";
 import { TRPCReactProvider } from "~/trpc/react";
 import { alegrea, mulish } from "./fonts";
 
@@ -19,27 +19,30 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`bg-darkgray font-p text-smoke ${mulish.variable} ${alegrea.variable}`}
+        className={`flex min-h-[100svh] overflow-x-hidden bg-darkgray font-p text-smoke ${mulish.variable} ${alegrea.variable}`}
       >
         <TRPCReactProvider cookies={cookies().toString()}>
-          <LayoutBg>{children}</LayoutBg>
+          <BgLayout>{children}</BgLayout>
         </TRPCReactProvider>
       </body>
     </html>
   );
 }
 
-const LayoutBg = ({ children }: { children: ReactNode }) => {
+const BgLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <div className="fixed z-0 h-full w-full">
-        <Image className="object-cover" src="/bg.jpg" alt="Фон" fill />
+      <div className="fixed inset-0 z-0 opacity-30">
+        <Image
+          className="object-cover"
+          src="/bg.jpg"
+          alt="Фон"
+          fill
+          sizes="100vw"
+          quality={90}
+        />
       </div>
-
-      <div className="relative z-10 flex min-h-[100svh] flex-col justify-between bg-darkgray/70">
-        {children}
-      </div>
-
+      <div className="z-10 flex flex-1 flex-col items-center">{children}</div>
       <div id="modal" />
     </>
   );

@@ -6,8 +6,6 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <PageContainer className="min-h-[100lvh] justify-center">
-      {children}
-    </PageContainer>
+    <PageContainer className="flex-1 justify-center">{children}</PageContainer>
   );
 }
