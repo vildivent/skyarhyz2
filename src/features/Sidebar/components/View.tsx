@@ -12,7 +12,7 @@ export default function View({ children }: { children: React.ReactNode }) {
         <div
           className={`${
             isOpen ? "" : "translate-x-full"
-          } absolute bottom-0 right-0 top-0 h-full max-w-[100vw] overflow-y-auto border bg-darkgray transition-all duration-500`}
+          } absolute bottom-0 right-0 top-0 h-full max-w-[100vw] overflow-y-auto border bg-darkgray transition-all duration-300`}
         >
           <div className="sticky top-0 z-10 flex items-center justify-end bg-darkgray p-2">
             <IconButton btntype="close" onClick={() => setIsOpen(false)} />

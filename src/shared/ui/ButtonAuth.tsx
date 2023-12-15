@@ -15,7 +15,7 @@ export default function ButtonAuth({
 }: ButtonAuthProps) {
   return (
     <button
-      className={`rounded-md bg-lightgray px-3 py-2 hover:bg-lightgray/70 ${className}`}
+      className={`rounded-full bg-lightgray px-3 py-2 hover:bg-lightgray/70 ${className}`}
       {...props}
     >
       <div className="flex items-center justify-center gap-5">

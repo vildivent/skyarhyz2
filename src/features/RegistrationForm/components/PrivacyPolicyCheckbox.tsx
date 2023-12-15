@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
 import { Checkbox } from "~/shared/ui/inputs";
@@ -16,7 +17,7 @@ export default function PrivacyPolicyCheckbox({
         checked={checkbox}
         onChange={() => setCheckbox((prev) => !prev)}
       />
-      <p className="my-5 text-xs">
+      <p className="my-5 text-sm">
         с{" "}
         <Link href="/privacy-policy" className="text-primary underline">
           Соглашением о конфиденциальности

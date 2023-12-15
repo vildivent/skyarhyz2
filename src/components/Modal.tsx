@@ -25,6 +25,13 @@ export const DeleteModal = ({
         )}
         <div className="grid w-fit grid-cols-2 gap-5">
           <Button
+            color="gray"
+            className="!w-full"
+            onClick={() => setIsOpen(false)}
+          >
+            Отмена
+          </Button>
+          <Button
             color="red"
             onClick={() => {
               deleteHandler();
@@ -32,13 +39,6 @@ export const DeleteModal = ({
             }}
           >
             Удалить
-          </Button>
-          <Button
-            color="gray"
-            className="!w-full"
-            onClick={() => setIsOpen(false)}
-          >
-            Отмена
           </Button>
         </div>
       </div>

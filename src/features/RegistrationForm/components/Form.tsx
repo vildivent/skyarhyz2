@@ -1,14 +1,15 @@
 "use client";
 import { useState } from "react";
 import Button from "~/shared/ui/Button";
+import FormError from "~/shared/ui/FormError";
 import Label from "~/shared/ui/Label";
+import Spinner from "~/shared/ui/Skeleton/Spinner";
 import { PhoneNumberInput, TextInput } from "~/shared/ui/inputs";
 import { limitMask } from "~/shared/utils/inputMasks";
 import type { UserRegistration } from "~/trpc/shared";
+import useRegistrationForm from "../hooks/useRegistrationForm";
 import NotificationsStatus from "./NotificationsStatus";
 import PrivacyPolicyCheckbox from "./PrivacyPolicyCheckbox";
-import useRegistrationForm from "../hooks/useRegistrationForm";
-import FormError from "~/shared/ui/FormError";
 
 type FormProps = {
   user: NonNullable<UserRegistration>;
@@ -19,7 +20,7 @@ export default function Form({ user }: FormProps) {
   });
   const [checkbox, setCheckbox] = useState(false);
   return (
-    <form onSubmit={onSubmit} className="flex max-w-sm flex-col gap-2">
+    <form onSubmit={onSubmit} className="flex flex-col gap-2">
       <Label htmlFor="name" label="Имя">
         <TextInput
           {...register("name")}
@@ -52,13 +53,19 @@ export default function Form({ user }: FormProps) {
       />
       <PrivacyPolicyCheckbox checkbox={checkbox} setCheckbox={setCheckbox} />
       <FormError error={errors.root?.message} />
-      <Button
-        type="submit"
-        disabled={!checkbox || isSubmitting}
-        className="mx-auto"
-      >
-        Подтвердить
-      </Button>
+      {isSubmitting ? (
+        <div className="flex h-10 items-center justify-center">
+          <Spinner />
+        </div>
+      ) : (
+        <Button
+          type="submit"
+          disabled={!checkbox || isSubmitting}
+          className="mx-auto"
+        >
+          Подтвердить
+        </Button>
+      )}
     </form>
   );
 }

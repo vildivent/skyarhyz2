@@ -7,20 +7,25 @@ type UserAvatarProps = {
   size?: number | string;
 };
 
-const UserAvatar = ({
+export default function UserAvatar({
   src,
   alt = "user",
   size = "2.5rem",
-}: UserAvatarProps) => {
+}: UserAvatarProps) {
   if (!src) return <User />;
   return (
     <div
       className="relative shrink-0 rounded-full"
       style={{ height: size, width: size }}
     >
-      <Image className="rounded-full" src={src} alt={alt ?? "user"} fill />
+      <Image
+        className="rounded-full"
+        src={src}
+        alt={alt ?? "user"}
+        fill
+        sizes={typeof size === "number" ? size + "px" : size}
+        priority
+      />
     </div>
   );
-};
-
-export default UserAvatar;
+}

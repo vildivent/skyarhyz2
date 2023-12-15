@@ -26,7 +26,7 @@ export const SelectInput = forwardRef<
   return (
     <select
       ref={ref}
-      className={`${inputStyle} flex-1 px-4 ${className}`}
+      className={`${inputStyle} flex-1 px-3 ${className}`}
       {...props}
     >
       {children}
