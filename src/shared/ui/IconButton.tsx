@@ -1,4 +1,8 @@
-import type { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type DetailedHTMLProps,
+} from "react";
 import {
   AiFillStar,
   AiOutlineCheck,
@@ -68,20 +72,19 @@ type IconButtonProps = {
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >;
-export default function IconButton({
-  btntype,
-  className = "",
-  title,
-  ...props
-}: IconButtonProps) {
-  return (
-    <button
-      className={`p-2 text-2xl transition hover:text-primary disabled:text-smoke/20 ${className}`}
-      title={title ?? buttonType[btntype].title}
-      type="button"
-      {...props}
-    >
-      {buttonType[btntype].icon}
-    </button>
-  );
-}
+const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+  function iconButton({ btntype, title, className = "", ...props }, ref) {
+    return (
+      <button
+        ref={ref}
+        className={`p-2 text-2xl transition hover:text-primary disabled:text-smoke/20 ${className}`}
+        title={title ?? buttonType[btntype].title}
+        type="button"
+        {...props}
+      >
+        {buttonType[btntype].icon}
+      </button>
+    );
+  },
+);
+export default IconButton;

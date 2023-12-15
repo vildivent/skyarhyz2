@@ -19,8 +19,9 @@ import Spinner from "~/shared/ui/Skeleton/Spinner";
 type FormProps = {
   user: UserForOrder;
   datesInfo: React.ReactNode;
+  success: React.ReactNode;
 };
-export default function Form({ user, datesInfo }: FormProps) {
+export default function Form({ user, datesInfo, success }: FormProps) {
   const {
     register,
     onSubmit,
@@ -28,7 +29,11 @@ export default function Form({ user, datesInfo }: FormProps) {
     setDatesHandler,
     isSubmitting,
     errors,
+    isSuccess,
   } = useOrderCreateForm({ user });
+
+  if (isSuccess) return success;
+
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-2">
       <Label htmlFor="name" label="Имя">
@@ -51,8 +56,8 @@ export default function Form({ user, datesInfo }: FormProps) {
         />
         <FormError error={errors.groupSize?.message} />
       </Label>
-      <Label htmlFor="dates" label="Даты экскурсии">
-        <div id="dates" className="flex items-center gap-2">
+      <Label label="Даты экскурсии">
+        <div className="flex items-center gap-2">
           <DatePickerWidget
             dateFrom={getValues().dateFrom}
             dateTo={getValues().dateTo}
@@ -65,6 +70,14 @@ export default function Form({ user, datesInfo }: FormProps) {
       <Label htmlFor="comment" label="Комментарий (необязательно)">
         <TextAreaInput {...register("comment")} id="comment" />
         <FormError error={errors.comment?.message} />
+      </Label>
+      <Label htmlFor="promocode" label="Промокод (необязательно)">
+        <TextInput
+          {...register("promocode")}
+          id="promocode"
+          mask={(input) => limitMask(input, 20)}
+        />
+        <FormError error={errors.promocode?.message} />
       </Label>
       <FormError error={errors.root?.message} />
 

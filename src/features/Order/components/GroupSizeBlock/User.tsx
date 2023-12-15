@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { GoPerson } from "react-icons/go";
+import FieldView from "~/components/FieldView";
 import { GroupSizeInput } from "~/shared/ui/inputs";
 import FieldUpdate from "../FieldUpdate";
-import FieldView from "../FieldView";
 
 type GroupSizeBlockProps = {
   id: string;

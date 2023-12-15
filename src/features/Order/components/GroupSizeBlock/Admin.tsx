@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { GoPerson } from "react-icons/go";
+import FieldView from "~/components/FieldView";
 import { GroupSizeInput } from "~/shared/ui/inputs";
-import { api } from "~/trpc/react";
 import FieldUpdate from "../FieldUpdate";
-import FieldView from "../FieldView";
 
 type GroupSizeBlockProps = {
   id: string;
@@ -20,19 +19,12 @@ export default function GroupSizeBlockAdmin({
   const [groupSize, setGroupSize] = useState(currentGroupSize);
   const [error, setError] = useState("");
   const [reset, setReset] = useState(false);
-  const ctx = api.useUtils();
-  const query = {};
 
   useEffect(() => {
     setReset((prev) => !prev);
     setError("");
     setGroupSize(currentGroupSize);
   }, [editable, currentGroupSize]);
-
-  async function onSuccess() {
-    await ctx.order.getByAdmin.invalidate(query);
-    //   await ctx.excursion.invalidate();
-  }
 
   return (
     <FieldView
@@ -49,7 +41,6 @@ export default function GroupSizeBlockAdmin({
         editable={editable}
         errorName="groupSize"
         reset={reset}
-        onSuccess={onSuccess}
       >
         <GroupSizeInput
           name="groupSize"

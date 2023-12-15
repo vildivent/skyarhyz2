@@ -8,11 +8,13 @@ import {
 import type { UserForOrder } from "~/trpc/shared";
 import { ZOrderCreateForm, type OrderCreateForm } from "../validation";
 import useOrderCreate from "./useOrderCreate";
+import useReferral from "./useReferral";
 
 type useOrderCreateFormOptions = {
   user: UserForOrder;
 };
 export function useOrderCreateForm({ user }: useOrderCreateFormOptions) {
+  const referral = useReferral();
   const {
     register,
     handleSubmit,
@@ -28,9 +30,13 @@ export function useOrderCreateForm({ user }: useOrderCreateFormOptions) {
       groupSize: 1,
       dateFrom: null,
       dateTo: null,
+      comment: "",
+      referral,
+      promocode: "",
     },
+    reValidateMode: "onChange",
   });
-  const { create, isLoading } = useOrderCreate({ setError });
+  const { create, isLoading, isSuccess } = useOrderCreate({ setError });
 
   function setDatesHandler(dateFrom: Date | null, dateTo: Date | null) {
     setValue("dateFrom", dateFrom);
@@ -38,7 +44,6 @@ export function useOrderCreateForm({ user }: useOrderCreateFormOptions) {
     if (dateFrom) setError("dateFrom", { message: "" });
     if (dateTo) setError("dateTo", { message: "" });
   }
-
   const preSubmit = () => {
     const values = getValues();
     setValue("groupSize", +values.groupSize);
@@ -51,8 +56,6 @@ export function useOrderCreateForm({ user }: useOrderCreateFormOptions) {
         dateFrom: data.dateFrom,
         dateTo: data.dateTo,
         phoneNumber: parsePhoneNumber(data.phoneNumber),
-        //   promocode: "",
-        //   referral: "",
       });
   };
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -68,5 +71,6 @@ export function useOrderCreateForm({ user }: useOrderCreateFormOptions) {
     setDatesHandler,
     errors,
     isSubmitting: isSubmitting || isLoading,
+    isSuccess,
   };
 }

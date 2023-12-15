@@ -12,6 +12,7 @@ import {
   PromocodeBlock,
   StatusBlock,
 } from "../components/user";
+import TimestampBlock from "../components/TimestampBlock";
 
 export default function UserOrder({ order }: { order: OrderUser }) {
   const editable = order.status === "new" || order.status === "registered";
@@ -33,7 +34,7 @@ export default function UserOrder({ order }: { order: OrderUser }) {
           </>
         }
         infoBlock={<></>}
-        timestamp={order.createdAt}
+        top={<TimestampBlock timestamp={order.createdAt} />}
       >
         <GroupSizeBlock
           id={order.id}

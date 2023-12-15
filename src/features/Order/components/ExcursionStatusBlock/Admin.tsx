@@ -3,11 +3,10 @@ import { ExcursionStatus } from "@prisma/client";
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import { HiOutlineDocumentCheck } from "react-icons/hi2";
+import FieldView from "~/components/FieldView";
 import { SelectInput } from "~/shared/ui/inputs";
-import { api } from "~/trpc/react";
 import { orderExcursionStatusMapper } from "../../lib/helpers";
 import FieldUpdate from "../FieldUpdate";
-import FieldView from "../FieldView";
 
 type ExcursionStatusBlockProps = {
   id: string;
@@ -25,19 +24,12 @@ export default function ExcursionStatusBlockAdmin({
   );
   const [error, setError] = useState("");
   const [reset, setReset] = useState(false);
-  const ctx = api.useUtils();
-  const query = {};
 
   useEffect(() => {
     setReset((prev) => !prev);
     setError("");
     setExcursionStatus(currentExcursionStatus);
   }, [editable, currentExcursionStatus]);
-
-  async function onSuccess() {
-    await ctx.order.getByAdmin.invalidate(query);
-    //   await ctx.excursion.invalidate();
-  }
 
   return (
     <FieldView
@@ -54,7 +46,6 @@ export default function ExcursionStatusBlockAdmin({
         editable={editable}
         errorName="excursionStatus"
         reset={reset}
-        onSuccess={onSuccess}
       >
         <EditView
           excursionStatus={excursionStatus}

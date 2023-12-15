@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { LiaUserCircle } from "react-icons/lia";
+import FieldView from "~/components/FieldView";
 import { TextInput } from "~/shared/ui/inputs";
 import { limitMask } from "~/shared/utils/inputMasks";
 import FieldUpdate from "../FieldUpdate";
-import FieldView from "../FieldView";
 
 type NameBlockProps = {
   id: string;

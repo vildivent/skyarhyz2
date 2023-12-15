@@ -1,8 +1,8 @@
-import { getServerAuthSession } from "~/server/auth";
-import LoginButton from "./components/LoginButton";
 import UserAvatar from "~/components/UserAvatar";
-import Controller from "./components/Controller";
+import { getServerAuthSession } from "~/server/auth";
 import Content from "./components/Content";
+import Controller from "./components/Controller";
+import LoginButton from "./components/LoginButton";
 
 export default async function ProfileMenu() {
   const session = await getServerAuthSession();

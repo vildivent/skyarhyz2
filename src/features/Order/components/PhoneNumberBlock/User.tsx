@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { FiPhone } from "react-icons/fi";
+import FieldView from "~/components/FieldView";
 import { PhoneNumberInput } from "~/shared/ui/inputs";
 import {
   formatPhoneNumber,
   parsePhoneNumber,
 } from "~/shared/utils/phoneNumber";
 import FieldUpdate from "../FieldUpdate";
-import FieldView from "../FieldView";
 
 type PhoneNumberBlockProps = {
   id: string;

@@ -18,19 +18,19 @@ export default function AdminOrder({ order }: { order: OrderAdmin }) {
   const border = getBorderColor(order.excursionStatus);
   const excursionMode = true;
   return (
-    <Container
-      className="max-w-3xl"
-      style={{ borderColor: excursionMode ? border : undefined }}
-    >
+    <Container style={{ borderColor: excursionMode ? border : undefined }}>
       <ViewController
         visible={
-          <>
-            <NameBlock name={order.name} userId={order.createdBy?.id} />
-            <PhoneNumberBlock id={order.id} phoneNumber={order.phoneNumber} />
-          </>
+          <PhoneNumberBlock id={order.id} phoneNumber={order.phoneNumber} />
         }
         infoBlock={<InfoBlock order={order} />}
-        timestamp={order.createdAt}
+        top={
+          <NameBlock
+            id={order.id}
+            name={order.name}
+            userId={order.createdBy?.id}
+          />
+        }
       >
         <GroupSizeBlock id={order.id} currentGroupSize={order.groupSize} />
         <DateBlock

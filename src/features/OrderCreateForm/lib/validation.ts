@@ -12,12 +12,14 @@ const common = z.object({
     .max(phoneNumberLengthFormatted, "Некорректный номер телефона"),
   groupSize: z
     .number({ invalid_type_error: "" })
-    .min(1, "Минимальное количество человек - 1")
+    .min(1, "Введите размер группы")
     .max(99, "Максимальное количество человек - 99"),
   comment: z
     .string()
     .max(500, "Максимальное количество символов - 500")
     .optional(),
+  referral: z.string().optional(),
+  promocode: z.string().optional(),
 });
 
 export const ZOrderCreateForm = z

@@ -7,7 +7,7 @@ import { api } from "~/trpc/react";
 
 export default function DeleteAccount() {
   const router = useRouter();
-  const [confirm, setConfirm] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { mutate: deleteAccount } = api.user.delete.useMutation({
     onSuccess: () => {
       router.push("/");
@@ -16,7 +16,7 @@ export default function DeleteAccount() {
   });
   return (
     <>
-      <Button color="red" className="mx-auto" onClick={() => setConfirm(true)}>
+      <Button color="red" className="mx-auto" onClick={() => setIsOpen(true)}>
         Удалить аккаунт
       </Button>
       <DeleteModal
@@ -30,8 +30,8 @@ export default function DeleteAccount() {
             </p>
           </>
         }
-        isOpen={confirm}
-        setIsOpen={setConfirm}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
         deleteHandler={() => deleteAccount()}
       />
     </>

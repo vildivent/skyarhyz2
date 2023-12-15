@@ -2,10 +2,9 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
+import FieldView from "~/components/FieldView";
 import { CalendarWidget, DatePickerWidget } from "~/features/DatePicker";
-import { api } from "~/trpc/react";
 import FieldUpdate from "../FieldUpdate";
-import FieldView from "../FieldView";
 
 type DateBlockProps = {
   id: string;
@@ -29,8 +28,6 @@ export default function DateBlockAdmin({
   });
   const [error, setError] = useState("");
   const [reset, setReset] = useState(false);
-  const query = {};
-  const ctx = api.useUtils();
 
   useEffect(() => {
     setReset((prev) => !prev);
@@ -42,11 +39,6 @@ export default function DateBlockAdmin({
     setError("");
     setDates({ dateFrom, dateTo });
   };
-
-  async function onSuccess() {
-    await ctx.order.getByAdmin.invalidate(query);
-    //   await ctx.excursion.invalidate();
-  }
 
   return (
     <>
@@ -70,7 +62,6 @@ export default function DateBlockAdmin({
           editable={editable}
           errorName="dateTo"
           reset={reset}
-          onSuccess={onSuccess}
         >
           <DatePickerWidget
             dateFrom={dates.dateFrom}

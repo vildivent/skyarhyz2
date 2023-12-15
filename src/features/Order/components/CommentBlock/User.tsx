@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { FaRegCommentDots } from "react-icons/fa";
+import FieldView from "~/components/FieldView";
 import { TextAreaInput } from "~/shared/ui/inputs";
 import { limitMask } from "~/shared/utils/inputMasks";
 import FieldUpdate from "../FieldUpdate";
-import FieldView from "../FieldView";
 
 type CommentBlockProps = {
   id: string;

@@ -2,9 +2,9 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
+import FieldView from "~/components/FieldView";
 import { CalendarWidget, DatePickerWidget } from "~/features/DatePicker";
 import FieldUpdate from "../FieldUpdate";
-import FieldView from "../FieldView";
 
 type DateBlockProps = {
   id: string;

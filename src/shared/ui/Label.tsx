@@ -1,7 +1,6 @@
 import type { DetailedHTMLProps, LabelHTMLAttributes, ReactNode } from "react";
 
 type LabelProps = {
-  htmlFor: string;
   label: string;
   children: ReactNode;
 } & DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>;

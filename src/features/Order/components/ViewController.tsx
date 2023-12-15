@@ -1,26 +1,25 @@
 "use client";
 import { useState, type ReactNode } from "react";
 import Animation from "./Animation";
-import TimestampBlock from "./TimestampBlock";
 import TopMenu from "./TopMenu";
 
 type ViewControllerProps = {
   visible: ReactNode;
   infoBlock: ReactNode;
   children: ReactNode;
-  timestamp: Date;
+  top: ReactNode;
 };
 export default function ViewController({
   visible,
   infoBlock,
   children,
-  timestamp,
+  top,
 }: ViewControllerProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div className="flex items-center justify-between">
-        <TimestampBlock timestamp={timestamp} />
+        {top}
         <TopMenu isOpen={isOpen} setIsOpen={setIsOpen}></TopMenu>
       </div>
       {visible}
