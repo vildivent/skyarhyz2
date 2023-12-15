@@ -22,15 +22,15 @@ export const orderStatusMapper = (status: string, plural?: boolean) => {
 export const orderStatusMapperUser = (status: string) => {
   switch (status) {
     case OrderStatus.new:
-      return "Заявка ожидает подтверждения администратора";
+      return "Ожидает подтверждения администратора";
     case OrderStatus.registered:
-      return "Заявка зарегистрирована";
+      return "Зарегистрирована";
     case OrderStatus.active:
-      return "Заявка находится в очереди на экскурсию";
+      return "Находится в очереди на экскурсию";
     case OrderStatus.fulfilled:
       return "Экскурсия состоялась";
     case OrderStatus.cancelled:
-      return "Заявка была отменена или просрочена";
+      return "Отменена или просрочена";
     default:
       return status;
   }
