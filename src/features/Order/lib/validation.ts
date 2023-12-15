@@ -9,16 +9,6 @@ export const orderStatus: z.ZodType<OrderStatus> = z.enum([
   OrderStatus.cancelled,
 ]);
 
-export const orderStatusExtended: z.ZodType<OrderStatus | ""> = z.enum([
-  OrderStatus.new,
-  OrderStatus.registered,
-  OrderStatus.active,
-  OrderStatus.fulfilled,
-  OrderStatus.cancelled,
-  "",
-]);
-export type OrderStatusExtended = z.infer<typeof orderStatusExtended>;
-
 export const excursionStatus: z.ZodType<ExcursionStatus> = z.enum([
   ExcursionStatus.inqueue,
   ExcursionStatus.pending,
