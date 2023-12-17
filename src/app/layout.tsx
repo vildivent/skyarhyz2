@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`flex min-h-[100svh] overflow-x-hidden bg-darkgray font-p text-smoke ${mulish.variable} ${alegrea.variable}`}
+        className={`flex min-h-[100dvh] overflow-x-hidden bg-darkgray font-p text-smoke ${mulish.variable} ${alegrea.variable}`}
       >
         <TRPCReactProvider cookies={cookies().toString()}>
           <BgLayout>{children}</BgLayout>
