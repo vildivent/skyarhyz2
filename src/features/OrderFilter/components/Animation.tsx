@@ -14,6 +14,7 @@ export default function Animation({
   return (
     <motion.div
       className={className}
+      initial={{ x: "-100%" }}
       animate={{
         x: isOpen ? 0 : "-100%",
         pointerEvents: isOpen ? "auto" : "none",

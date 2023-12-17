@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ReactNode } from "react";
+import { useState, type ReactNode, useRef } from "react";
 import Animation from "./Animation";
 import TopMenu from "./TopMenu";
 
@@ -16,15 +16,17 @@ export default function ViewController({
   top,
 }: ViewControllerProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const element = useRef<HTMLDivElement>(null);
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div ref={element} className="flex items-center justify-between">
         {top}
         <TopMenu isOpen={isOpen} setIsOpen={setIsOpen}></TopMenu>
       </div>
       {visible}
-      {!isOpen && infoBlock}
-      <Animation isOpen={isOpen}>{children}</Animation>
+      <Animation element={element} isOpen={isOpen} infoBlock={infoBlock}>
+        {children}
+      </Animation>
     </>
   );
 }
