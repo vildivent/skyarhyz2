@@ -12,12 +12,14 @@ export default function useOrderCreate({
   onSuccess,
   onError,
 }: SubmitUserConfig) {
+  const ctx = api.useUtils();
   const {
     mutate: create,
     isLoading,
     isSuccess,
   } = api.order.create.useMutation({
     onSuccess: async () => {
+      await ctx.notification.getNewAmount.invalidate();
       if (onSuccess) await onSuccess();
     },
     onError: async (error) => {
