@@ -1,3 +1,4 @@
+"use client";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import IconButton from "~/shared/ui/IconButton";
 
