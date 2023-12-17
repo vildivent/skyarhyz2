@@ -108,7 +108,7 @@ export const orderRouter = createTRPCRouter({
 
       if (input.groupNumber !== undefined) {
         const excursion = await ctx.db.excursion.findFirst({
-          where: { isActive: true },
+          where: { current: true },
           include: {
             excursionGroups: { where: { number: input.groupNumber } },
           },
@@ -219,7 +219,7 @@ export const orderRouter = createTRPCRouter({
       adminCheckAPI(ctx.session);
 
       const excursion = await ctx.db.excursion.findFirst({
-        where: { isActive: true },
+        where: { current: true },
       });
 
       const orders = await ctx.db.order.findMany({
