@@ -11,12 +11,12 @@ const common = z.object({
     .min(phoneNumberLengthFormatted, "Некорректный номер телефона")
     .max(phoneNumberLengthFormatted, "Некорректный номер телефона"),
   groupSize: z
-    .number({ invalid_type_error: "" })
+    .string()
     .min(1, "Введите размер группы")
     .max(99, "Максимальное количество человек - 99"),
   comment: z
     .string()
-    .max(500, "Максимальное количество символов - 500")
+    .max(300, "Максимальное количество символов - 300")
     .optional(),
   referral: z.string().optional(),
   promocode: z.string().optional(),

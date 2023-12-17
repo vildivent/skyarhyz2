@@ -49,11 +49,7 @@ export default function Form({ user, datesInfo, success }: FormProps) {
         <FormError error={errors.phoneNumber?.message} />
       </Label>
       <Label htmlFor="groupSize" label="Размер группы (чел.)">
-        <GroupSizeInput
-          {...register("groupSize")}
-          id="groupSize"
-          className="mr-auto"
-        />
+        <GroupSizeInput {...register("groupSize")} id="groupSize" />
         <FormError error={errors.groupSize?.message} />
       </Label>
       <Label label="Даты экскурсии">
@@ -90,7 +86,7 @@ export default function Form({ user, datesInfo, success }: FormProps) {
           <Button type="submit">Подтвердить</Button>
         )}
         <Link href="/">
-          <Button color="gray" className="!w-full">
+          <Button color="gray" tabIndex={-1} className="!w-full">
             Отмена
           </Button>
         </Link>

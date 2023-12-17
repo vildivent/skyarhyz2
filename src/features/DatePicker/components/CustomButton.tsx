@@ -11,7 +11,7 @@ export default function CustomButton({
   return (
     <button
       type="button"
-      className={`flex h-[34px] w-[231px] items-center rounded-md border bg-darkgray px-4 text-start outline-none focus:border-smoke/50 ${
+      className={`flex h-[34px] w-64 items-center rounded-md border bg-darkgray px-4 text-start outline-none focus:border-smoke/50 ${
         !value || disabled ? "text-smoke/50" : ""
       }`}
       onClick={openCalendar}

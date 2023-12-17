@@ -27,14 +27,13 @@ export function useOrderCreateForm({ user }: useOrderCreateFormOptions) {
     defaultValues: {
       name: user?.name ?? "",
       phoneNumber: formatPhoneNumber(user?.phone ?? ""),
-      groupSize: 1,
+      groupSize: "",
       dateFrom: null,
       dateTo: null,
       comment: "",
       referral,
       promocode: "",
     },
-    reValidateMode: "onChange",
   });
   const { create, isLoading, isSuccess } = useOrderCreate({ setError });
 
@@ -46,13 +45,13 @@ export function useOrderCreateForm({ user }: useOrderCreateFormOptions) {
   }
   const preSubmit = () => {
     const values = getValues();
-    setValue("groupSize", +values.groupSize);
     if (values.comment === "") setValue("comment", undefined);
   };
   const submitForm = (data: OrderCreateForm) => {
     if (data.dateFrom && data.dateTo)
       create({
         ...data,
+        groupSize: +data.groupSize,
         dateFrom: data.dateFrom,
         dateTo: data.dateTo,
         phoneNumber: parsePhoneNumber(data.phoneNumber),

@@ -1,12 +1,10 @@
-import { forwardRef } from "react";
 import type {
-  ChangeEventHandler,
   DetailedHTMLProps,
-  SelectHTMLAttributes,
   InputHTMLAttributes,
+  SelectHTMLAttributes,
   TextareaHTMLAttributes,
-  FocusEventHandler,
 } from "react";
+import { forwardRef } from "react";
 import {
   groupMask,
   groupNumberMask,
@@ -17,16 +15,16 @@ import {
 import checkboxStyle from "~/styles/checkbox.module.css";
 
 const inputStyle =
-  "bg-darkgray text-smoke border focus:border-smoke/50 selection:bg-lightgray p-1 outline-none placeholder:text-smoke/50 rounded-md";
+  "bg-darkgray text-smoke border focus:border-smoke/50 selection:bg-lightgray w-full p-1 px-4 outline-none placeholder:text-smoke/50 rounded-md";
 
 export const SelectInput = forwardRef<
   HTMLSelectElement,
   DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>
->(function selectInput({ children, className = "", ...props }, ref) {
+>(function selectInput({ children, className, ...props }, ref) {
   return (
     <select
       ref={ref}
-      className={`${inputStyle} flex-1 px-3 ${className}`}
+      className={inputStyle + (className ? " " + className : "")}
       {...props}
     >
       {children}
@@ -39,13 +37,13 @@ export const TextInput = forwardRef<
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> &
     Mask
 >(function textInput(
-  { onChange, mask = (value) => value, className = "", ...props },
+  { onChange, mask = (value) => value, className, ...props },
   ref,
 ) {
   return (
     <input
       ref={ref}
-      className={`${inputStyle} px-4 ${className}`}
+      className={inputStyle + (className ? " " + className : "")}
       type="text"
       onChange={(e) => {
         e.target.value = mask(e.target.value);
@@ -62,14 +60,14 @@ export const NumberInput = forwardRef<
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> &
     Mask
 >(function numberInput(
-  { onChange, mask = (value) => value, className = "", ...props },
+  { onChange, mask = (value) => value, className, ...props },
   ref,
 ) {
   return (
     <input
       ref={ref}
-      className={`${inputStyle} ${className}`}
-      type="number"
+      className={inputStyle + (className ? " " + className : "")}
+      type="text"
       inputMode="numeric"
       onChange={(e) => {
         e.target.value = mask(e.target.value);
@@ -89,13 +87,17 @@ export const TextAreaInput = forwardRef<
   > &
     Mask
 >(function textAreaInput(
-  { onChange, mask = (value) => value, className = "", ...props },
+  { onChange, mask = (value) => value, className, ...props },
   ref,
 ) {
   return (
     <textarea
       ref={ref}
-      className={`${inputStyle} h-40 w-full resize-none px-4 pr-8 ${className}`}
+      className={
+        inputStyle +
+        " h-40 w-full resize-none pr-8" +
+        (className ? " " + className : "")
+      }
       onChange={(e) => {
         e.target.value = mask(e.target.value);
         if (onChange) onChange(e);
@@ -131,17 +133,19 @@ export const Checkbox = forwardRef<
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
     "type"
   >
->(function checkbox({ className = "", ...props }, ref) {
+>(function checkbox({ className, ...props }, ref) {
   return (
     <div
-      className={`${
-        checkboxStyle["checkbox-wrapper-2"] ?? ""
-      } flex items-center`}
+      className={
+        "flex items-center " + (checkboxStyle["checkbox-wrapper-2"] ?? "")
+      }
     >
       <input
         ref={ref}
         type="checkbox"
-        className={`${checkboxStyle.ikxBAC ?? ""} ${className}`}
+        className={
+          (checkboxStyle.ikxBAC ?? "") + (className ? " " + className : "")
+        }
         {...props}
       />
     </div>
@@ -154,11 +158,13 @@ export const TitleInput = forwardRef<
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
     "ref"
   >
->(function titleInput({ className = "", ...props }, ref) {
+>(function titleInput({ className, ...props }, ref) {
   return (
     <TextInput
       ref={ref}
-      className={`font-h1 w-full px-4 text-center text-3xl ${className}`}
+      className={
+        "text-center font-h text-3xl" + (className ? " " + className : "")
+      }
       name="title"
       {...props}
     />
@@ -169,16 +175,16 @@ export const PhoneNumberInput = forwardRef<
   HTMLInputElement,
   Omit<
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
-    "type" | "inputMode"
+    "type" | "inputMode" | "ref"
   >
->(function telInput({ onChange, className = "", ...props }, ref) {
+>(function telInput({ onChange, ...props }, ref) {
   return (
-    <input
+    <TextInput
       ref={ref}
       name="tel"
-      className={`${inputStyle} px-4 placeholder:text-smoke ${className}`}
       type="tel"
       inputMode="tel"
+      size={18}
       onChange={(e) => {
         e.target.value = phoneNumberMask(e.target.value);
         if (onChange) onChange(e);
@@ -196,14 +202,15 @@ export const GroupSizeInput = forwardRef<
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
     "ref"
   >
->(function groupSizeInput({ className = "", ...props }, ref) {
+>(function groupSizeInput({ className, ...props }, ref) {
   return (
     <NumberInput
       ref={ref}
       name="groupSize"
-      className={`text-center ${className}`}
-      max={99}
-      min={1}
+      className={
+        "!w-fit !px-1 text-center" + (className ? " " + className : "")
+      }
+      size={2}
       mask={groupMask}
       onFocus={(e) => e.currentTarget.select()}
       {...props}
@@ -217,14 +224,15 @@ export const GroupNumberInput = forwardRef<
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
     "ref"
   >
->(function groupNumberInput({ className = "", ...props }, ref) {
+>(function groupNumberInput({ className, ...props }, ref) {
   return (
     <NumberInput
       ref={ref}
       name="groupNumber"
-      className={`text-center ${className}`}
-      max={7}
-      min={0}
+      className={
+        "!w-fit !px-1 text-center" + (className ? " " + className : "")
+      }
+      size={2}
       mask={groupNumberMask}
       onFocus={(e) => e.currentTarget.select()}
       {...props}
@@ -238,14 +246,15 @@ export const HoursInput = forwardRef<
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
     "ref"
   >
->(function hourInput({ className = "", ...props }, ref) {
+>(function hourInput({ className, ...props }, ref) {
   return (
     <NumberInput
       ref={ref}
       name="hour"
-      className={`text-center ${className}`}
-      max={23}
-      min={0}
+      className={
+        "!w-fit !px-1 text-center" + (className ? " " + className : "")
+      }
+      size={2}
       mask={hourMask}
       onFocus={(e) => e.currentTarget.select()}
       {...props}
@@ -259,41 +268,17 @@ export const MinutesInput = forwardRef<
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
     "ref"
   >
->(function minuteInput({ className = "", ...props }, ref) {
+>(function minuteInput({ className, ...props }, ref) {
   return (
     <NumberInput
       ref={ref}
       name="minute"
-      className={`text-center ${className}`}
-      max={59}
-      min={0}
+      className={
+        "!w-fit !px-1 text-center" + (className ? " " + className : "")
+      }
+      size={2}
       mask={minuteMask}
       onFocus={(e) => e.currentTarget.select()}
-      {...props}
-    />
-  );
-});
-
-export const DateInput = forwardRef<
-  HTMLInputElement,
-  Omit<
-    DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> &
-      CustomDateInputProps,
-    "ref"
-  >
->(function dateInput(
-  { openCalendar, handleValueChange, className = "", ...props },
-  ref,
-) {
-  return (
-    <input
-      ref={ref}
-      className={`${inputStyle} cursor-pointer px-4 ${className}`}
-      placeholder="дд.мм.гггг - дд.мм.гггг"
-      required
-      onFocus={openCalendar}
-      onChange={handleValueChange}
-      readOnly={true}
       {...props}
     />
   );
@@ -302,10 +287,3 @@ export const DateInput = forwardRef<
 type Mask = {
   mask?: (value: string) => string;
 };
-
-type CustomDateInputProps = {
-  openCalendar?: FocusEventHandler<HTMLInputElement>;
-  handleValueChange?: ChangeEventHandler<HTMLInputElement>;
-};
-
-// type SelectOptions = { options: string[] | number[] };
