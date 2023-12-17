@@ -32,7 +32,7 @@ export default function RootLayout({
 const BgLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <div className="fixed inset-0 z-0 opacity-30">
+      <div className="fixed left-0 right-0 top-0 z-0 h-[100lvh] opacity-30">
         <Image
           className="object-cover"
           src="/bg.jpg"
