@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { GoPerson } from "react-icons/go";
 import FieldView from "~/components/FieldView";
 import { GroupSizeInput } from "~/shared/ui/inputs";
-import useSetSearchParams from "../lib/hooks/useSetSearchParams";
+import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 export default function GroupSizeField() {
   const size = 20;

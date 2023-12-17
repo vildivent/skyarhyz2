@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import FieldView from "~/components/FieldView";
 import { TextInput } from "~/shared/ui/inputs";
-import useSetSearchParams from "../lib/hooks/useSetSearchParams";
+import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 export default function QueryField() {
   const size = 20;

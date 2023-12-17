@@ -6,7 +6,7 @@ import FieldView from "~/components/FieldView";
 import { orderStatusMapper } from "~/features/Order/lib/helpers";
 import { OrderStatusIcon } from "~/shared/ui/icons";
 import { SelectInput } from "~/shared/ui/inputs";
-import useSetSearchParams from "../lib/hooks/useSetSearchParams";
+import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 export default function StatusField() {
   const size = 20;

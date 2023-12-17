@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 import FieldView from "~/components/FieldView";
 import { DatePickerWidget } from "~/features/DatePicker";
-import useSetSearchParams from "../lib/hooks/useSetSearchParams";
+import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 export default function DatesField() {
   const size = 20;

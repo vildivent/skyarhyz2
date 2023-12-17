@@ -1,6 +1,6 @@
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import useSetSearchParams from "./useSetSearchParams";
+import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 export default function useFilter(excursionMode?: boolean) {
   const routerReplace = useSetSearchParams();

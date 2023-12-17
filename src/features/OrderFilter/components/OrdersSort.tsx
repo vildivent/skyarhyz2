@@ -1,7 +1,7 @@
 "use client";
-import IconButton from "~/shared/ui/IconButton";
-import useSetSearchParams from "../lib/hooks/useSetSearchParams";
 import { useState } from "react";
+import IconButton from "~/shared/ui/IconButton";
+import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 export default function OrdersSort({
   sort: sortDefault,

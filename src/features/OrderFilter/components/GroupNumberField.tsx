@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { GoPeople } from "react-icons/go";
 import FieldView from "~/components/FieldView";
 import { GroupNumberInput } from "~/shared/ui/inputs";
-import useSetSearchParams from "../lib/hooks/useSetSearchParams";
+import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 export default function GroupNumberField() {
   const size = 20;

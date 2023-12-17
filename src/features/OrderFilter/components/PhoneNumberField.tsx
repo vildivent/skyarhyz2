@@ -5,11 +5,11 @@ import { FiPhone } from "react-icons/fi";
 import FieldView from "~/components/FieldView";
 import { phoneNumberLengthFormatted } from "~/shared/constants";
 import { PhoneNumberInput } from "~/shared/ui/inputs";
+import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 import {
   formatPhoneNumber,
   parsePhoneNumber,
 } from "~/shared/utils/phoneNumber";
-import useSetSearchParams from "../lib/hooks/useSetSearchParams";
 
 export default function PhoneNumberField() {
   const size = 20;
