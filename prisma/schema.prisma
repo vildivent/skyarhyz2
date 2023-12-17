@@ -168,7 +168,7 @@ model Excursion {
     id              String           @id @default(cuid())
     createdAt       DateTime         @default(now())
     updatedAt       DateTime         @updatedAt
-    isActive        Boolean          @default(true)
+    current         Boolean          @default(true)
     createdBy       User?            @relation(fields: [userId], references: [id])
     userId          String?
     orders          Order[]
@@ -177,16 +177,14 @@ model Excursion {
 }
 
 model ExcursionGroup {
-    id            String    @id @default(cuid())
-    number        Int
-    time          DateTime?
-    currentSize   Int?      @default(0)
-    maxSize       Int?
-    currentOrders Int?      @default(0)
-    maxOrders     Int?
-    excursion     Excursion @relation(fields: [excursionId], references: [id], onDelete: Cascade)
-    excursionId   String
-    Order         Order[]
+    id          String    @id @default(cuid())
+    number      Int
+    time        DateTime?
+    people      Int       @default(0)
+    orders      Int       @default(0)
+    excursion   Excursion @relation(fields: [excursionId], references: [id], onDelete: Cascade)
+    excursionId String
+    Order       Order[]
 
     @@unique([number, excursionId])
 }
