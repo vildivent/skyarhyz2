@@ -44,3 +44,5 @@ export type OrderGetByAdminOutput = RouterOutputs["order"]["getByAdmin"];
 export type OrderGetByUserOutput = RouterOutputs["order"]["getByUser"];
 export type OrderAdmin = ArrayElement<OrderGetByAdminOutput>;
 export type OrderUser = ArrayElement<OrderGetByUserOutput>;
+
+export type Excursion = RouterOutputs["excursion"]["get"];
