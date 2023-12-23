@@ -1,4 +1,6 @@
-import parseSearchParams from "~/features/Order/lib/parseSearchParams";
+import { Suspense } from "react";
+import Excursion from "~/features/Excursion";
+import Skeleton from "~/features/Order/components/Skeleton";
 import AdminOrderList from "~/features/Order/widgets/AdminOrderList";
 import OrdersMenuBar from "~/features/OrdersMunuBar";
 import PageContainer from "~/shared/ui/PageContainer";
@@ -17,15 +19,17 @@ export default async function Orders({
   searchParams: Record<string, string | string[] | undefined>;
 }) {
   await adminCheck("/dashboard/orders");
-  const orders = await api.order.getByAdmin.query(
-    parseSearchParams(searchParams),
-  );
+
+  const excursion = await api.excursion.get.query();
   return (
     <>
-      <OrdersMenuBar ordersFound={orders.length} searchParams={searchParams} />
+      <OrdersMenuBar searchParams={searchParams} />
+      <Excursion excursion={excursion} />
       <PageContainer className="items-center">
         <PageHeading>Заявки</PageHeading>
-        <AdminOrderList orders={orders} />
+        <Suspense key={JSON.stringify(searchParams)} fallback={<Skeleton />}>
+          <AdminOrderList searchParams={searchParams} />
+        </Suspense>
       </PageContainer>
     </>
   );

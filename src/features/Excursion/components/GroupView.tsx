@@ -1,22 +1,30 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+import type { Dispatch, SetStateAction } from "react";
 import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 type GroupViewProps = {
   children: React.ReactNode;
   group: number;
+  currentGroup: number;
+  setCurrentGroup: Dispatch<SetStateAction<number>>;
 };
-export default function GroupView({ children, group }: GroupViewProps) {
+export default function GroupView({
+  children,
+  group,
+  currentGroup,
+  setCurrentGroup,
+}: GroupViewProps) {
   const routerReplace = useSetSearchParams();
-  const params = useSearchParams();
-  const currentGroup = params.get("group");
   return (
     <button
       className={
         "flex-auto border-b border-r px-1 py-3 text-xs" +
-        (group.toString() === currentGroup ? " bg-grayish" : " bg-darkgray")
+        (group === currentGroup ? " bg-grayish" : " bg-darkgray")
       }
-      onClick={() => routerReplace({ group: group.toString() })}
+      onClick={() => {
+        setCurrentGroup(group);
+        routerReplace({ group: group.toString() });
+      }}
     >
       {children}
     </button>

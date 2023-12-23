@@ -37,15 +37,17 @@ export type ZeroGroupData = {
 type ZeroGroupProps = { group: ZeroGroupData };
 export function ZeroGroupContent({ group }: ZeroGroupProps) {
   const size = 20;
-  <div className="flex flex-col items-center gap-3">
-    <ContentRow icon={<GoPeople size={size} />}>-</ContentRow>
-    <ContentRow icon={<GoPerson size={size} />}>
-      {group.peopleInGroup + " / " + group.peopleTotal}
-    </ContentRow>
-    <ContentRow icon={<OrdersIcon />}>
-      {group.ordersInGroup + " / " + group.ordersTotal}
-    </ContentRow>
-  </div>;
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <ContentRow icon={<GoPeople size={size} />}>-</ContentRow>
+      <ContentRow icon={<GoPerson size={size} />}>
+        {group.peopleInGroup + " / " + group.peopleTotal}
+      </ContentRow>
+      <ContentRow icon={<OrdersIcon />}>
+        {group.ordersInGroup + " / " + group.ordersTotal}
+      </ContentRow>
+    </div>
+  );
 }
 
 type ContentRowProps = {
