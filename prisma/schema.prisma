@@ -253,8 +253,8 @@ enum ExcursionStatus {
     inqueue
     pending
     accepted
-    registered
     rejected
+    responded
 }
 
 enum NotificationType {
