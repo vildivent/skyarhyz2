@@ -1,0 +1,5 @@
+.inset-border {
+  -webkit-box-shadow: inset 0px 0px 0px 1px #444;
+  -moz-box-shadow: inset 0px 0px 0px 1px #444;
+  box-shadow: inset 0px 0px 0px 1px #444;
+}
