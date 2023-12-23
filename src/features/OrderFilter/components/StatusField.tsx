@@ -3,6 +3,7 @@ import { OrderStatus } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import FieldView from "~/components/FieldView";
+import { useExcursionMenuStore } from "~/features/Excursion/lib/store";
 import { orderStatusMapper } from "~/features/Order/lib/helpers";
 import { OrderStatusIcon } from "~/shared/ui/icons";
 import { SelectInput } from "~/shared/ui/inputs";
@@ -10,7 +11,7 @@ import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 export default function StatusField() {
   const size = 20;
-  const excursionMode = false;
+  const excursionMode = useExcursionMenuStore((state) => state.isOpen);
   const routerReplace = useSetSearchParams();
   const params = useSearchParams();
   const status = params.get("status") ?? "";

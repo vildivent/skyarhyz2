@@ -7,13 +7,15 @@ export const orderStatus: z.ZodType<OrderStatus> = z.enum([
   OrderStatus.active,
   OrderStatus.fulfilled,
   OrderStatus.cancelled,
+  OrderStatus.expired,
 ]);
 
 export const excursionStatus: z.ZodType<ExcursionStatus> = z.enum([
   ExcursionStatus.inqueue,
   ExcursionStatus.pending,
   ExcursionStatus.accepted,
-  ExcursionStatus.cancelled,
+  ExcursionStatus.responded,
+  ExcursionStatus.rejected,
 ]);
 
 export const ZOrderDelete = z.object({ id: z.string().min(1) });

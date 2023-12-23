@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { ModalBlackscreen } from "~/components/Modal";
+import { useExcursionMenuStore } from "~/features/Excursion/lib/store";
 import IconButton from "~/shared/ui/IconButton";
 import useFilter from "../lib/hooks/useFilter";
 import Animation from "./Animation";
@@ -11,7 +12,7 @@ export default function ViewController({
   children: React.ReactNode;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const excursionMode = false;
+  const excursionMode = useExcursionMenuStore((state) => state.isOpen);
   const { reset, filterWarning } = useFilter(excursionMode);
   const ref = useRef<HTMLButtonElement>(null);
   return (

@@ -104,36 +104,34 @@ export const excursionRouter = createTRPCRouter({
         );
         zeroGroupData.ordersTotal += zeroGroupData.ordersInGroup;
         zeroGroupData.peopleTotal += zeroGroupData.peopleInGroup;
+      } else {
+        const ordersInGroup = group.orders.length;
+        const peopleInGroup = group.orders.reduce(
+          (previous, current) => previous + current.groupSize,
+          0,
+        );
 
-        break;
+        zeroGroupData.ordersTotal += ordersInGroup;
+        zeroGroupData.peopleTotal += peopleInGroup;
+
+        groupData.push({
+          number: group.number,
+          time: group.time,
+          ordersInGroup,
+          peopleInGroup,
+          ordersConfirmed: group.orders.reduce(
+            (previous, current) =>
+              previous + +(current.excursionStatus === "accepted"),
+            0,
+          ),
+          peopleConfirmed: group.orders.reduce(
+            (previous, current) =>
+              previous +
+              (current.excursionStatus === "accepted" ? current.groupSize : 0),
+            0,
+          ),
+        });
       }
-
-      const ordersInGroup = group.orders.length;
-      const peopleInGroup = group.orders.reduce(
-        (previous, current) => previous + current.groupSize,
-        0,
-      );
-
-      zeroGroupData.ordersTotal += ordersInGroup;
-      zeroGroupData.peopleTotal += peopleInGroup;
-
-      groupData.push({
-        number: group.number,
-        time: group.time,
-        ordersInGroup,
-        peopleInGroup,
-        ordersConfirmed: group.orders.reduce(
-          (previous, current) =>
-            previous + +(current.excursionStatus === "accepted"),
-          0,
-        ),
-        peopleConfirmed: group.orders.reduce(
-          (previous, current) =>
-            previous +
-            (current.excursionStatus === "accepted" ? current.groupSize : 0),
-          0,
-        ),
-      });
     }
 
     return {
@@ -253,7 +251,9 @@ export const excursionRouter = createTRPCRouter({
         },
         select: { createdById: true },
       });
-      const filteredOrders = orders.filter((order) => order.createdById !== null);
+      const filteredOrders = orders.filter(
+        (order) => order.createdById !== null,
+      );
       const data = filteredOrders.map((order) => ({
         forUserId: order.createdById ?? "",
         text: "Спасибо, что посетили экскурсию. Оставьте отзыв.",

@@ -5,11 +5,12 @@ import { useMemo } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 import FieldView from "~/components/FieldView";
 import { DatePickerWidget } from "~/features/DatePicker";
+import { useExcursionMenuStore } from "~/features/Excursion/lib/store";
 import useSetSearchParams from "~/shared/utils/hooks/useSetSearchParams";
 
 export default function DatesField() {
   const size = 20;
-  const excursionMode = false;
+  const excursionMode = useExcursionMenuStore((state) => state.isOpen);
   const params = useSearchParams();
   const routerReplace = useSetSearchParams();
 

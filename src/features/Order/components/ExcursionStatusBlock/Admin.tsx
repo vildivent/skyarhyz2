@@ -63,7 +63,7 @@ function DefaultView({
 }) {
   return (
     <span className="my-auto ml-5 overflow-hidden text-ellipsis">
-      {orderExcursionStatusMapper(excursionStatus ?? "")}
+      {orderExcursionStatusMapper(excursionStatus)}
     </span>
   );
 }

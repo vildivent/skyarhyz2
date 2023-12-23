@@ -1,8 +1,18 @@
-import type { OrderAdmin } from "~/trpc/shared";
-import AdminOrder from "./AdminOrder";
 import Container from "~/shared/ui/Container";
+import { api } from "~/trpc/server";
+import parseSearchParams from "../lib/parseSearchParams";
+import AdminOrder from "./AdminOrder";
 
-export default function AdminOrderList({ orders }: { orders: OrderAdmin[] }) {
+type AdminOrderListProps = {
+  searchParams: Record<string, string | string[] | undefined>;
+};
+
+export default async function AdminOrderList({
+  searchParams,
+}: AdminOrderListProps) {
+  const orders = await api.order.getByAdmin.query(
+    parseSearchParams(searchParams),
+  );
   if (orders.length === 0)
     return (
       <Container className="mx-auto !w-fit text-center text-xl">
