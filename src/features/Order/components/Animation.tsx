@@ -23,7 +23,6 @@ export default function Animation({
       onAnimationStart={() => {
         if (isOpen)
           setTimeout(() => {
-            console.log("before scroll");
             element.current?.scrollIntoView({
               block: "center",
               behavior: "smooth",
