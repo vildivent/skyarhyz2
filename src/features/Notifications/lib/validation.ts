@@ -10,13 +10,6 @@ const BaseCreate = z.object({
 export const ZNotificationCreate = z.discriminatedUnion("type", [
   z
     .object({
-      type: z.literal(NotificationType.link),
-      link: z.string(),
-      excursionId: z.string().min(1).optional(),
-    })
-    .merge(BaseCreate),
-  z
-    .object({
       type: z.literal(NotificationType.confirmation),
       excursionId: z.string().min(1),
     })

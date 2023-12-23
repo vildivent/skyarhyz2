@@ -55,7 +55,7 @@ model User {
     email           String?        @unique
     emailVerified   DateTime?
     image           String?
-    avatar          Image?         @relation(fields: [avatarId], references: [id])
+    avatar          Image?         @relation("avatar", fields: [avatarId], references: [id])
     avatarId        String?
     registered      DateTime?
     telegramEnabled Boolean?       @default(false)
@@ -69,22 +69,23 @@ model User {
     posts           Post[]
     reviews         Review[]
     notifications   Notification[]
-    partner         Partner[]
+    partnership     Partner[]
     images          Image[]        @relation("createdBy")
     imageToken      ImageToken?
 }
 
 model Image {
-    id          String   @id @default(cuid())
-    url         String
-    aspectRatio Float
-    title       String?
-    createdBy   User?    @relation("createdBy", fields: [userId], references: [id])
-    userId      String?
-    Post        Post[]
-    Photo       Photo[]
-    Review      Review[]
-    User        User[]
+    id                String   @id @default(cuid())
+    url               String
+    aspectRatio       Float
+    title             String?
+    createdBy         User?    @relation("createdBy", fields: [createdById], references: [id])
+    createdById       String?
+    posts             Post[]
+    photos            Photo[]
+    reviewsWithImage  Review[] @relation("image")
+    reviewsWithAvatar Review[] @relation("avatar")
+    usersWithAvatar   User[]   @relation("avatar")
 }
 
 model ImageToken {
@@ -95,17 +96,16 @@ model ImageToken {
 }
 
 model Post {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    title     String
-    text      String   @db.Text
-    views     Int      @default(0)
-    createdBy User?    @relation(fields: [userId], references: [id])
-    userId    String?
-    image     Image?   @relation(fields: [imageId], references: [id])
-    imageId   String?
-    srcUrl    String?  @db.Text
+    id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    title       String
+    text        String   @db.Text
+    srcUrl      String?  @db.Text
+    createdBy   User?    @relation(fields: [createdById], references: [id])
+    createdById String?
+    image       Image?   @relation(fields: [imageId], references: [id])
+    imageId     String?
 }
 
 model Photo {
@@ -114,27 +114,27 @@ model Photo {
     updatedAt   DateTime @updatedAt
     title       String
     description String?  @db.Text
-    category    String
-    views       Int      @default(0)
+    category    String?
     image       Image?   @relation(fields: [imageId], references: [id])
     imageId     String?
-    createdBy   User?    @relation(fields: [userId], references: [id])
-    userId      String?
+    createdBy   User?    @relation(fields: [createdById], references: [id])
+    createdById String?
 }
 
 model Review {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    name      String
-    text      String   @db.Text
-    stars     Int
-    checked   Boolean  @default(false)
-    views     Int      @default(0)
-    image     Image?   @relation(fields: [imageId], references: [id])
-    imageId   String?
-    createdBy User?    @relation(fields: [userId], references: [id])
-    userId    String?
+    id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    text        String   @db.Text
+    stars       Int
+    checked     Boolean  @default(false)
+    image       Image?   @relation("image", fields: [imageId], references: [id])
+    imageId     String?
+    createdBy   User?    @relation(fields: [createdById], references: [id])
+    createdById String?
+    name        String?
+    avatar      Image?   @relation("avatar", fields: [avatarId], references: [id])
+    avatarId    String?
 }
 
 model Order {
@@ -149,8 +149,8 @@ model Order {
     status           OrderStatus      @default(new)
     comment          String?          @db.Text //User's comment 
     note             String?          @db.Text //Admin's note
-    createdBy        User?            @relation(fields: [userId], references: [id])
-    userId           String?
+    createdBy        User?            @relation(fields: [createdById], references: [id])
+    createdById      String?
     excursion        Excursion?       @relation(fields: [excursionId], references: [id])
     excursionId      String?
     excursionGroup   ExcursionGroup?  @relation(fields: [excursionGroupId], references: [id])
@@ -160,8 +160,7 @@ model Order {
     partnerId        String?
     promocode        Promocode?       @relation(fields: [promocodeId], references: [id])
     promocodeId      String?
-    confirmations    Notification[]   @relation("confirmation")
-    notifications    Notification[]   @relation("notification")
+    notifications    Notification[]   @relation("order")
 }
 
 model Excursion {
@@ -169,44 +168,39 @@ model Excursion {
     createdAt       DateTime         @default(now())
     updatedAt       DateTime         @updatedAt
     current         Boolean          @default(true)
-    createdBy       User?            @relation(fields: [userId], references: [id])
-    userId          String?
+    createdBy       User?            @relation(fields: [createdById], references: [id])
+    createdById     String?
     orders          Order[]
     excursionGroups ExcursionGroup[]
-    notifications   Notification[]
+    notifications   Notification[]   @relation("excursion")
 }
 
 model ExcursionGroup {
     id          String    @id @default(cuid())
     number      Int
     time        DateTime?
-    people      Int       @default(0)
-    orders      Int       @default(0)
     excursion   Excursion @relation(fields: [excursionId], references: [id], onDelete: Cascade)
     excursionId String
-    Order       Order[]
+    orders      Order[]
 
     @@unique([number, excursionId])
 }
 
 model Notification {
-    id             String           @id @default(cuid())
-    createdAt      DateTime         @default(now())
-    text           String           @db.Text
-    forUser        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId         String
-    type           NotificationType @default(text)
-    hidden         Boolean          @default(false)
-    checked        DateTime?
-    firstLoad      DateTime?
-    link           String?          @db.Text
-    order          Order?           @relation("notification", fields: [orderId], references: [id])
-    orderId        String?
-    confirmation   Order?           @relation("confirmation", fields: [confirmationId], references: [id])
-    confirmationId String?
-    excursion      Excursion?       @relation(fields: [excursionId], references: [id])
-    excursionId    String?
-    confirmed      DateTime?
+    id          String           @id @default(cuid())
+    createdAt   DateTime         @default(now())
+    text        String           @db.Text
+    forUser     User             @relation(fields: [forUserId], references: [id], onDelete: Cascade)
+    forUserId   String
+    type        NotificationType @default(text)
+    hidden      Boolean          @default(false)
+    checked     DateTime?
+    firstLoad   DateTime?
+    confirmed   DateTime?
+    order       Order?           @relation("order", fields: [orderId], references: [id])
+    orderId     String?
+    excursion   Excursion?       @relation("excursion", fields: [excursionId], references: [id])
+    excursionId String?
 }
 
 model Partner {
@@ -224,11 +218,19 @@ model Partner {
 model Promocode {
     id        String        @id @default(cuid())
     code      String        @unique
-    type      PromocodeType
+    type      PromocodeType @relation(fields: [typeId], references: [id])
+    typeId    String
     valid     Boolean       @default(true)
     partner   Partner       @relation(fields: [partnerId], references: [id])
     partnerId String
-    Order     Order[]
+    orders    Order[]
+}
+
+model PromocodeType {
+    id          String      @id @default(cuid())
+    type        String      @unique
+    description String
+    promocodes  Promocode[]
 }
 
 enum Role {
@@ -244,22 +246,18 @@ enum OrderStatus {
     active
     fulfilled
     cancelled
+    expired
 }
 
 enum ExcursionStatus {
     inqueue
     pending
     accepted
-    cancelled
+    registered
+    rejected
 }
 
 enum NotificationType {
     text
     confirmation
-    link
-}
-
-enum PromocodeType {
-    discount
-    queuePriority
 }

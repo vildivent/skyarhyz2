@@ -45,7 +45,7 @@ export const orderRouter = createTRPCRouter({
           dateFrom: input.dateFrom,
           dateTo: input.dateTo,
           comment: input.comment,
-          userId: ctx.session.user.id,
+          createdById: ctx.session.user.id,
           promocodeId: promocode?.id,
           partnerId: referral?.id,
         },
@@ -54,7 +54,7 @@ export const orderRouter = createTRPCRouter({
       await ctx.db.notification.create({
         data: {
           text: notificationMessages.userOrderCreate,
-          userId: ctx.session.user.id,
+          forUserId: ctx.session.user.id,
           orderId: order.id,
         },
       });
@@ -65,7 +65,7 @@ export const orderRouter = createTRPCRouter({
       });
       const data = admins.map((admin) => ({
         text: notificationMessages.adminOrderCreate,
-        userId: admin.id,
+        forUserId: admin.id,
         orderId: order.id,
       }));
 
@@ -133,7 +133,7 @@ export const orderRouter = createTRPCRouter({
 
       if (!order) throw new TRPCError({ code: "BAD_REQUEST" });
 
-      if (ctx.session.user.id !== order.userId)
+      if (ctx.session.user.id !== order.createdById)
         throw new TRPCError({ code: "UNAUTHORIZED" });
 
       await ctx.db.order.update({
@@ -177,7 +177,7 @@ export const orderRouter = createTRPCRouter({
 
       if (!order) throw new TRPCError({ code: "BAD_REQUEST" });
 
-      if (ctx.session.user.id !== order.userId)
+      if (ctx.session.user.id !== order.createdById)
         throw new TRPCError({ code: "UNAUTHORIZED" });
 
       return await ctx.db.order.delete({
@@ -202,13 +202,13 @@ export const orderRouter = createTRPCRouter({
           comment: true,
           promocode: { select: { code: true } },
           excursionGroup: { select: { time: true } },
-          userId: true,
+          createdById: true,
         },
       });
 
       if (!order) throw new TRPCError({ code: "BAD_REQUEST" });
 
-      if (order.userId !== ctx.session.user.id) adminCheckAPI(ctx.session);
+      if (order.createdById !== ctx.session.user.id) adminCheckAPI(ctx.session);
 
       return order;
     }),
@@ -248,12 +248,12 @@ export const orderRouter = createTRPCRouter({
               name: true,
               phone: true,
               orders: { select: { id: true } },
-              partner: { select: { referralId: true, name: true } },
+              partnership: { select: { referralId: true, name: true } },
             },
           },
           excursionGroup: { select: { number: true, time: true } },
-          confirmations: {
-            where: { excursionId: excursion?.id ?? null },
+          notifications: {
+            where: { excursionId: excursion?.id ?? null, type: "confirmation" },
             select: {
               createdAt: true,
               firstLoad: true,
@@ -283,7 +283,7 @@ export const orderRouter = createTRPCRouter({
   getByUser: protectedProcedure.query(async ({ ctx }) => {
     const orders = await ctx.db.order.findMany({
       where: {
-        userId: ctx.session.user.id,
+        createdById: ctx.session.user.id,
       },
       select: {
         id: true,
@@ -297,7 +297,7 @@ export const orderRouter = createTRPCRouter({
         comment: true,
         promocode: { select: { code: true } },
         excursionGroup: { select: { time: true } },
-        userId: true,
+        createdById: true,
       },
       orderBy: { createdAt: "desc" },
     });

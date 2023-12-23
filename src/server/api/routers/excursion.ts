@@ -70,7 +70,7 @@ export const excursionRouter = createTRPCRouter({
             id: true,
             number: true,
             time: true,
-            Order: {
+            orders: {
               select: {
                 groupSize: true,
                 excursionStatus: true,
@@ -97,27 +97,19 @@ export const excursionRouter = createTRPCRouter({
     //Считаем вторичные данные из первичных для каждой группы
     for (const group of excursion.excursionGroups) {
       if (group.number === 0) {
-        zeroGroupData.ordersInGroup = group.Order.length;
-        zeroGroupData.peopleInGroup = group.Order.reduce(
+        zeroGroupData.ordersInGroup = group.orders.length;
+        zeroGroupData.peopleInGroup = group.orders.reduce(
           (previous, current) => previous + current.groupSize,
           0,
         );
         zeroGroupData.ordersTotal += zeroGroupData.ordersInGroup;
         zeroGroupData.peopleTotal += zeroGroupData.peopleInGroup;
 
-        //для статистики
-        await ctx.db.excursionGroup.update({
-          where: { id: group.id },
-          data: {
-            people: zeroGroupData.peopleInGroup,
-            orders: zeroGroupData.ordersInGroup,
-          },
-        });
         break;
       }
 
-      const ordersInGroup = group.Order.length;
-      const peopleInGroup = group.Order.reduce(
+      const ordersInGroup = group.orders.length;
+      const peopleInGroup = group.orders.reduce(
         (previous, current) => previous + current.groupSize,
         0,
       );
@@ -130,26 +122,17 @@ export const excursionRouter = createTRPCRouter({
         time: group.time,
         ordersInGroup,
         peopleInGroup,
-        ordersConfirmed: group.Order.reduce(
+        ordersConfirmed: group.orders.reduce(
           (previous, current) =>
             previous + +(current.excursionStatus === "accepted"),
           0,
         ),
-        peopleConfirmed: group.Order.reduce(
+        peopleConfirmed: group.orders.reduce(
           (previous, current) =>
             previous +
             (current.excursionStatus === "accepted" ? current.groupSize : 0),
           0,
         ),
-      });
-
-      //для статистики
-      await ctx.db.excursionGroup.update({
-        where: { id: group.id },
-        data: {
-          people: peopleInGroup,
-          orders: ordersInGroup,
-        },
       });
     }
 
@@ -268,11 +251,11 @@ export const excursionRouter = createTRPCRouter({
           excursionId: input.id,
           excursionGroup: { number: { not: 0 } },
         },
-        select: { userId: true },
+        select: { createdById: true },
       });
-      const filteredOrders = orders.filter((order) => order.userId !== null);
+      const filteredOrders = orders.filter((order) => order.createdById !== null);
       const data = filteredOrders.map((order) => ({
-        userId: order.userId ?? "",
+        forUserId: order.createdById ?? "",
         text: "Спасибо, что посетили экскурсию. Оставьте отзыв.",
       }));
 

@@ -24,7 +24,6 @@ export const notificationRouter = createTRPCRouter({
           text: input.text,
           forUser: { connect: { id: input.forUser } },
           type: input.type,
-          link: input.type === "link" ? input.link : null,
           order: input.orderId ? { connect: { id: input.orderId } } : {},
           excursion: input.excursionId
             ? { connect: { id: input.excursionId } }
@@ -37,7 +36,7 @@ export const notificationRouter = createTRPCRouter({
   get: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.db.notification.findMany({
       where: {
-        userId: ctx.session.user.id,
+        forUserId: ctx.session.user.id,
         hidden: false,
       },
       orderBy: { createdAt: "desc" },
@@ -50,14 +49,14 @@ export const notificationRouter = createTRPCRouter({
       adminCheckAPI(ctx.session);
 
       return await ctx.db.notification.findMany({
-        where: { userId: input.forUser },
+        where: { forUserId: input.forUser },
         orderBy: { createdAt: "desc" },
       });
     }),
 
   getNewAmount: protectedProcedure.query(async ({ ctx }) => {
     const notifications = await ctx.db.notification.findMany({
-      where: { userId: ctx.session.user.id, checked: null },
+      where: { forUserId: ctx.session.user.id, checked: null },
     });
     return notifications.length;
   }),
@@ -71,7 +70,7 @@ export const notificationRouter = createTRPCRouter({
 
       if (!notification) throw new TRPCError({ code: "NOT_FOUND" });
 
-      if (ctx.session.user.id !== notification.userId)
+      if (ctx.session.user.id !== notification.forUserId)
         throw new TRPCError({ code: "BAD_REQUEST" });
 
       await ctx.db.notification.update({
@@ -82,7 +81,7 @@ export const notificationRouter = createTRPCRouter({
 
   checkAll: protectedProcedure.mutation(async ({ ctx }) => {
     return await ctx.db.notification.updateMany({
-      where: { userId: ctx.session.user.id, checked: null },
+      where: { forUserId: ctx.session.user.id, checked: null },
       data: { checked: new Date() },
     });
   }),
@@ -90,7 +89,7 @@ export const notificationRouter = createTRPCRouter({
   hideChecked: protectedProcedure.mutation(async ({ ctx }) => {
     return await ctx.db.notification.updateMany({
       where: {
-        userId: ctx.session.user.id,
+        forUserId: ctx.session.user.id,
         checked: { not: null },
         hidden: false,
       },
@@ -101,7 +100,7 @@ export const notificationRouter = createTRPCRouter({
   showChecked: protectedProcedure.mutation(async ({ ctx }) => {
     return await ctx.db.notification.updateMany({
       where: {
-        userId: ctx.session.user.id,
+        forUserId: ctx.session.user.id,
         checked: { not: null },
         hidden: true,
       },
