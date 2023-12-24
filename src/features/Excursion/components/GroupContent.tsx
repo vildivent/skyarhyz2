@@ -19,7 +19,7 @@ export function GroupContent({ group }: GroupContentProps) {
         {group.number + (group.time ? " - " + format(group.time, "hh:mm") : "")}
       </ContentRow>
       <ContentRow icon={<GoPerson size={size} />}>
-        {group.peopleConfirmed + " ( " + group.peopleConfirmed + " )"}
+        {group.peopleConfirmed + " ( " + group.peopleInGroup + " )"}
       </ContentRow>
       <ContentRow icon={<OrdersIcon />}>
         {group.ordersConfirmed + " ( " + group.ordersInGroup + " )"}

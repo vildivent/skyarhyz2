@@ -50,7 +50,7 @@ export default function parseSearchParams(
   const group = ZOrderGetByAdmin.safeParse({
     groupNumber: searchParams.group && +searchParams.group,
   });
-  if (group.success && group.data.groupNumber)
+  if (group.success && group.data.groupNumber !== undefined)
     input.groupNumber = group.data.groupNumber;
 
   const sort = ZOrderGetByAdmin.safeParse({ sort: searchParams.sort });

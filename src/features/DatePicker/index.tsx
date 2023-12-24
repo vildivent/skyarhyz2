@@ -3,6 +3,7 @@ import { useLayoutEffect, useState } from "react";
 import DatePicker, { Calendar, DateObject } from "react-multi-date-picker";
 import ru from "~/shared/constants/calendar/locale/gregorian_ru";
 import CustomButton from "./components/CustomButton";
+import { dateClearTime } from "~/shared/utils/formatDate";
 
 type InputDateProps = {
   dateFrom: Date | null;
@@ -34,7 +35,10 @@ export const DatePickerWidget = ({
       onChange={(input: DateObject[] | null) => {
         setDateRange(input);
         if (!input) return setDates(null, null);
-        setDates(input[0]?.toDate() ?? null, input[1]?.toDate() ?? null);
+        setDates(
+          input[0] ? dateClearTime(input[0].toDate()) : null,
+          input[1] ? dateClearTime(input[1].toDate()) : null,
+        );
       }}
       range
       locale={ru}
