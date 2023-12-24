@@ -252,6 +252,9 @@ export const orderRouter = createTRPCRouter({
             },
           },
           excursionGroup: { select: { number: true, time: true } },
+          excursion: {
+            select: { excursionGroups: { select: { number: true } } },
+          },
           notifications: {
             where: { excursionId: excursion?.id ?? null, type: "confirmation" },
             select: {

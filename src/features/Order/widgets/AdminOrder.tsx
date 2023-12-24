@@ -7,9 +7,11 @@ import {
   DateBlock,
   ExcursionStatusBlock,
   GroupSizeBlock,
+  GroupSwitchBlock,
   InfoBlock,
   NameBlock,
   PhoneNumberBlock,
+  StatusBlock,
 } from "../components/admin";
 
 export default function AdminOrder({ order }: { order: OrderAdmin }) {
@@ -37,12 +39,17 @@ export default function AdminOrder({ order }: { order: OrderAdmin }) {
       <CommentBlock id={order.id} comment={order.comment} />
       {/* <PromocodeBlock promocode={order.promocode?.code || null} /> */}
       <Line />
+      <StatusBlock id={order.id} currentStatus={order.status} />
+      <GroupSwitchBlock
+        id={order.id}
+        currentGroup={order.excursionGroup?.number}
+        totalGroups={order.excursion?.excursionGroups.length}
+      />
       <ExcursionStatusBlock
         id={order.id}
         currentExcursionStatus={order.excursionStatus}
       />
 
-      {/* <StatusBlock id={order.id} status={order.status} /> */}
       <ExcursionDateBlock id={order.id} date={order.excursionGroup?.time} />
       {/*<TimestampBlock date={order.createdAt} /> */}
     </ViewController>
